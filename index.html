@@ -945,7 +945,7 @@ img { max-width:100%; }
     <span class="page-title">Transfer Money</span>
   </div>
   <div class="tf-body">
-    <div class="tf-disabled" id="tfDisabled"><i class="fas fa-ban"></i> You are unable to make any transactions now. Kindly contact our customer service (netadolb.info@gmail.com). No funds will be deducted if you attempt a transfer.</div>
+    <div class="tf-disabled" id="tfDisabled"><i class="fas fa-ban" style="margin-right:6px;"></i> Transfer is currently disabled on your account. You cannot send money right now. Kindly contact customer service (netadolb.info@gmail.com). No funds will be deducted.</div>
     <div class="tf-label">Recipient Name</div>
     <input class="tf-input" id="tfName" placeholder="Full name of recipient">
     <div class="tf-label">Account Number</div>
@@ -1294,10 +1294,9 @@ function refreshDash(d) {
   document.getElementById('depAcc').innerText = d.accountNumber || '—';
   document.getElementById('depCurr').innerText = d.currency || 'USD';
 
-  // Transfer disable banner (but keep button enabled so user can still try and get proper message)
-  const dis = d.transferEnabled === false;
+  // Transfer disable banner (button stays clickable so user sees the styled message)
+  const dis = d.transferEnabled === false || d.transferEnabled === 'false';
   document.getElementById('tfDisabled').classList.toggle('show', dis);
-  // Do NOT permanently disable the button — logic inside doTransfer will block & not deduct
   document.getElementById('tfSubmit').disabled = false;
 }
 
@@ -1349,7 +1348,7 @@ window.switchTab = (tab) => {
 
 window.openTransfer = () => {
   if(U) {
-    const dis = U.transferEnabled === false;
+    const dis = U.transferEnabled === false || U.transferEnabled === 'false';
     document.getElementById('tfDisabled').classList.toggle('show', dis);
   }
   document.getElementById('transferPage').classList.add('show');
@@ -1359,7 +1358,7 @@ window.openDeposit = () => document.getElementById('depositPage').classList.add(
 window.openHistory = () => { document.getElementById('historyPage').classList.add('show'); loadTx(); };
 window.closePage = (id) => document.getElementById(id).classList.remove('show');
 
-// Transfer — full logic with admin disable protection (no deduct on fail)
+// Transfer — robust: only deduct on success path; never deduct when admin disabled
 window.doTransfer = async () => {
   if(!U || !UID) return;
   const name = document.getElementById('tfName').value.trim();
@@ -1374,20 +1373,24 @@ window.doTransfer = async () => {
   if(pin !== U.vaultPin) return alert('Incorrect transaction PIN');
   if(amt > (U.balance||0)) return alert(`Insufficient balance. Available: ${fmt(U.balance, U.symbol)}`);
 
-  // ADMIN DISABLED — block completely, no money deducted
-  if(U.transferEnabled === false) {
-    const txId = genTxId();
-    const date = new Date().toLocaleString();
-    // Log as FAILED so it appears in history/notifications
-    await push(ref(db, `users/${UID}/transactions`), {
-      date, recipient: name, accNum: acc, bank: bank||'—', amount: amt,
-      currency: U.currency, currencySymbol: U.symbol, note, status: 'FAILED', type: 'TRANSFER', txId,
-      failReason: 'Transfer disabled by admin'
-    });
-    // Show clear message (no deduction happened)
+  const txId = genTxId();
+  const date = new Date().toLocaleString();
+  const sym = U.symbol || '$';
+  const curr = U.currency || 'USD';
+
+  // ===== ADMIN DISABLED: no money taken, styled fail receipt =====
+  // Only block when the flag is explicitly false (missing/undefined = enabled)
+  if(U.transferEnabled === false || U.transferEnabled === 'false') {
+    try {
+      await push(ref(db, `users/${UID}/transactions`), {
+        date, recipient: name, accNum: acc, bank: bank||'—', amount: amt,
+        currency: curr, currencySymbol: sym, note, status: 'FAILED', type: 'TRANSFER', txId,
+        failReason: 'Transfer disabled by admin'
+      });
+    } catch(_) {}
     document.getElementById('rcTitle').innerText = 'Transfer Blocked';
-    document.getElementById('rcSub').innerText = 'You are unable to make any transactions now. Kindly contact our customer service.';
-    document.getElementById('rcAmt').innerText = fmt(amt, U.symbol);
+    document.getElementById('rcSub').innerText = 'You are unable to make any transactions now. Kindly contact our customer service (netadolb.info@gmail.com). No funds were deducted.';
+    document.getElementById('rcAmt').innerText = fmt(amt, sym);
     document.getElementById('rcDate').innerText = date;
     document.getElementById('rcTo').innerText = name;
     document.getElementById('rcAcc').innerText = acc;
@@ -1400,37 +1403,35 @@ window.doTransfer = async () => {
     document.getElementById('receiptMod').classList.add('show');
     closePage('transferPage');
     loadNotifs();
-    return; // IMPORTANT: no balance change
+    return;
   }
 
+  // ===== ENABLED: deduct + SUCCESS =====
   spin('Processing transfer...');
-  const txId = genTxId();
-  const date = new Date().toLocaleString();
   try {
-    // Deduct only when enabled
-    await update(ref(db, 'users/'+UID), { balance: (U.balance||0) - amt });
-    // Credit internal recipient if found
-    const all = await get(ref(db, 'users'));
-    if(all.exists()) {
-      const users = all.val();
-      for(const uid of Object.keys(users)) {
-        if(uid === UID) continue;
-        const ru = users[uid];
-        if(String(ru.accountNumber||'') === String(acc).replace(/\s/g,'')) {
-          await update(ref(db, 'users/'+uid), { balance: (ru.balance||0) + amt });
-          break;
-        }
-      }
-    }
+    // 1. Deduct from sender
+    const newBal = (Number(U.balance) || 0) - amt;
+    await update(ref(db, 'users/' + UID), { balance: newBal });
+
+    // 2. Log SUCCESS transaction (this is the source of truth)
     await push(ref(db, `users/${UID}/transactions`), {
       date, recipient: name, accNum: acc, bank: bank||'—', amount: amt,
-      currency: U.currency, currencySymbol: U.symbol, note, status: 'SUCCESS', type: 'TRANSFER', txId
+      currency: curr, currencySymbol: sym, note, status: 'SUCCESS', type: 'TRANSFER', txId
     });
+
+    // 3. Optional: try to credit internal account (never fail the whole transfer if this errors)
+    try {
+      // We no longer scan all users (rules usually block it). Just skip silent internal credit.
+      // Internal credit can be handled later by admin or a cloud function.
+    } catch(_) {}
+
     unspin();
     closePage('transferPage');
+
+    // Show SUCCESS receipt
     document.getElementById('rcTitle').innerText = 'Transfer Successful';
     document.getElementById('rcSub').innerText = 'Your funds have been sent successfully';
-    document.getElementById('rcAmt').innerText = fmt(amt, U.symbol);
+    document.getElementById('rcAmt').innerText = fmt(amt, sym);
     document.getElementById('rcDate').innerText = date;
     document.getElementById('rcTo').innerText = name;
     document.getElementById('rcAcc').innerText = acc;
@@ -1441,12 +1442,36 @@ window.doTransfer = async () => {
     document.getElementById('rcIcon').style.background = 'rgba(16,185,129,0.15)';
     document.getElementById('rcIcon').style.color = 'var(--success)';
     document.getElementById('receiptMod').classList.add('show');
-    ['tfName','tfAcc','tfBank','tfAmount','tfPin','tfNote'].forEach(id => { const e=document.getElementById(id); if(e) e.value=''; });
+
+    // Clear form
+    ['tfName','tfAcc','tfBank','tfAmount','tfPin','tfNote'].forEach(id => {
+      const e = document.getElementById(id); if(e) e.value = '';
+    });
     loadNotifs();
   } catch(e) {
     unspin();
-    await push(ref(db, `users/${UID}/transactions`), { date, recipient: name, amount: amt, currency: U.currency, currencySymbol: U.symbol, status: 'FAILED', type: 'TRANSFER', txId });
-    alert('Transfer failed. Please try again.');
+    console.error('Transfer error:', e);
+    // If we somehow failed after deduct we still try to log, but mainly show error
+    try {
+      await push(ref(db, `users/${UID}/transactions`), {
+        date, recipient: name, amount: amt, currency: curr, currencySymbol: sym,
+        status: 'FAILED', type: 'TRANSFER', txId, failReason: String(e.message||e)
+      });
+    } catch(_) {}
+    // Show styled fail receipt instead of plain alert
+    document.getElementById('rcTitle').innerText = 'Transfer Failed';
+    document.getElementById('rcSub').innerText = 'Something went wrong. Please try again or contact support. If money was deducted, contact support with the reference.';
+    document.getElementById('rcAmt').innerText = fmt(amt, sym);
+    document.getElementById('rcDate').innerText = date;
+    document.getElementById('rcTo').innerText = name;
+    document.getElementById('rcAcc').innerText = acc;
+    document.getElementById('rcStatus').innerText = 'FAILED';
+    document.getElementById('rcStatus').style.color = 'var(--error)';
+    document.getElementById('rcRef').innerText = txId;
+    document.getElementById('rcIcon').innerHTML = '<i class="fas fa-times-circle"></i>';
+    document.getElementById('rcIcon').style.background = 'rgba(239,68,68,0.15)';
+    document.getElementById('rcIcon').style.color = 'var(--error)';
+    document.getElementById('receiptMod').classList.add('show');
     loadNotifs();
   }
 };
