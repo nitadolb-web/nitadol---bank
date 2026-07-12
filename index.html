@@ -291,31 +291,34 @@ img { max-width:100%; }
 .nav-item i { font-size:20px; }
 .nav-item.active i { color:var(--gold); }
 
-/* Page views */
-.page-view { display:none; position:fixed; inset:0; background:#0a1525; z-index:300; overflow-y:auto; max-width:480px; left:50%; transform:translateX(-50%); }
+/* Page views - full mobile friendly */
+.page-view { display:none; position:fixed; inset:0; background:#0a1525; z-index:300; overflow-y:auto; width:100%; max-width:480px; left:50%; transform:translateX(-50%); -webkit-overflow-scrolling:touch; }
 .page-view.show { display:block; }
-.page-top { background:var(--navy-mid); padding:16px; display:flex; align-items:center; gap:14px; border-bottom:1px solid rgba(0,166,247,0.1); position:sticky; top:0; z-index:10; }
-.page-back { width:36px; height:36px; border-radius:50%; background:rgba(0,166,247,0.15); border:none; color:var(--primary); font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.page-top { background:var(--navy-mid); padding:16px 18px; display:flex; align-items:center; gap:14px; border-bottom:1px solid rgba(0,166,247,0.1); position:sticky; top:0; z-index:10; }
+.page-back { width:40px; height:40px; border-radius:50%; background:rgba(0,166,247,0.15); border:none; color:var(--primary); font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .page-title { font-size:17px; font-weight:700; color:#e2e8f0; }
-.tf-body { padding:20px 16px; }
-.tf-label { font-size:11px; font-weight:600; color:#64748b; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
-.tf-input, .tf-select { width:100%; padding:14px 16px; border:1.5px solid rgba(0,166,247,0.15); border-radius:12px; font-size:14px; margin-bottom:16px; outline:none; font-family:inherit; background:var(--navy-card); color:#e2e8f0; }
-.tf-input:focus, .tf-select:focus { border-color:var(--primary); }
+.tf-body { padding:22px 18px 40px; min-height:calc(100vh - 70px); }
+.tf-label { font-size:12px; font-weight:600; color:#94a3b8; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
+.tf-input, .tf-select { width:100%; padding:16px 18px; border:1.5px solid rgba(0,166,247,0.18); border-radius:14px; font-size:16px; margin-bottom:18px; outline:none; font-family:inherit; background:var(--navy-card); color:#e2e8f0; -webkit-appearance:none; }
+.tf-input:focus, .tf-select:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(0,166,247,0.12); }
 .tf-input::placeholder { color:#475569; }
 .tf-select option { background:var(--navy); }
-.tf-submit { width:100%; padding:16px; background:var(--primary); color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer; margin-top:8px; }
+.tf-submit { width:100%; padding:17px; background:var(--primary); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:700; cursor:pointer; margin-top:10px; letter-spacing:0.3px; }
 .tf-submit:disabled { opacity:0.45; cursor:not-allowed; }
-.tf-disabled { background:rgba(239,68,68,0.12); color:var(--error); padding:12px 16px; border-radius:10px; font-size:13px; font-weight:600; margin-bottom:16px; display:none; border:1px solid rgba(239,68,68,0.25); }
+.tf-disabled { background:rgba(239,68,68,0.12); color:var(--error); padding:14px 16px; border-radius:12px; font-size:13.5px; font-weight:600; margin-bottom:18px; display:none; border:1px solid rgba(239,68,68,0.25); line-height:1.45; }
 .tf-disabled.show { display:block; }
 
-/* Card page */
-.card-visual { width:100%; max-width:340px; height:200px; margin:20px auto; background:linear-gradient(135deg,#0f2744 0%,#1a3a5c 50%,#0d2137 100%); border-radius:18px; padding:24px; position:relative; border:1px solid rgba(0,166,247,0.25); box-shadow:0 20px 50px rgba(0,0,0,0.4); color:#fff; }
-.card-visual .chip { width:42px; height:32px; background:linear-gradient(135deg,#c9a84c,#e8d48b); border-radius:6px; margin-bottom:24px; }
-.card-visual .c-num { font-family:'JetBrains Mono',monospace; font-size:18px; letter-spacing:2.5px; margin-bottom:18px; }
-.card-visual .c-bot { display:flex; justify-content:space-between; align-items:flex-end; }
-.card-visual .c-label { font-size:9px; opacity:0.6; letter-spacing:1px; }
-.card-visual .c-val { font-size:13px; font-weight:600; }
-.card-visual .c-logo { font-size:22px; font-weight:900; color:var(--primary); }
+/* Card page - mature premium design */
+.card-visual { width:100%; max-width:360px; height:220px; margin:24px auto; background:linear-gradient(145deg,#0a1628 0%,#142d4a 40%,#1a3a5c 70%,#0f2744 100%); border-radius:20px; padding:26px 24px; position:relative; border:1px solid rgba(201,168,76,0.28); box-shadow:0 25px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06); color:#fff; overflow:hidden; }
+.card-visual::before { content:""; position:absolute; top:-40%; right:-20%; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(201,168,76,0.15) 0%,transparent 70%); }
+.card-visual::after { content:""; position:absolute; bottom:-30%; left:-10%; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle,rgba(0,166,247,0.12) 0%,transparent 70%); }
+.card-visual .chip { width:46px; height:34px; background:linear-gradient(135deg,#c9a84c,#e8d48b,#c9a84c); border-radius:7px; margin-bottom:20px; position:relative; z-index:1; box-shadow:0 2px 8px rgba(0,0,0,0.3); }
+.card-visual .bank-name { position:absolute; top:24px; right:24px; font-size:13px; font-weight:800; letter-spacing:1px; color:var(--gold); z-index:1; text-transform:uppercase; }
+.card-visual .c-num { font-family:'JetBrains Mono',monospace; font-size:19px; letter-spacing:3px; margin-bottom:22px; position:relative; z-index:1; }
+.card-visual .c-bot { display:flex; justify-content:space-between; align-items:flex-end; position:relative; z-index:1; }
+.card-visual .c-label { font-size:9px; opacity:0.55; letter-spacing:1.2px; text-transform:uppercase; }
+.card-visual .c-val { font-size:13px; font-weight:600; margin-top:3px; }
+.card-visual .c-logo { font-size:24px; font-weight:900; color:#fff; letter-spacing:1px; font-style:italic; }
 
 /* Profile / Me */
 .me-header { text-align:center; padding:36px 20px 24px; background:linear-gradient(180deg,#14253f 0%,#0a1525 100%); }
@@ -329,7 +332,7 @@ img { max-width:100%; }
 .info-row .val { color:#e2e8f0; font-weight:600; text-align:right; max-width:60%; word-break:break-all; }
 
 /* Modal */
-.modal { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:5000; display:none; justify-content:center; align-items:center; padding:16px; }
+.modal { position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:5000; display:none; justify-content:center; align-items:center; padding:16px; }
 .modal.show { display:flex; }
 .modal-box { background:var(--navy-mid); border-radius:20px; padding:28px 24px; width:100%; max-width:400px; max-height:90vh; overflow-y:auto; border:1px solid rgba(0,166,247,0.2); color:#e2e8f0; }
 .modal-box h3 { font-size:18px; font-weight:800; margin-bottom:8px; }
@@ -339,6 +342,25 @@ img { max-width:100%; }
 .receipt-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:13px; }
 .receipt-row .lbl { color:#64748b; }
 .receipt-row .val { font-weight:600; color:#e2e8f0; }
+
+/* Notif panel */
+.notif-panel { position:fixed; top:0; right:0; bottom:0; width:100%; max-width:380px; background:#0d1b2e; z-index:4000; transform:translateX(100%); transition:0.3s ease; display:flex; flex-direction:column; box-shadow:-10px 0 40px rgba(0,0,0,0.4); }
+.notif-panel.open { transform:translateX(0); }
+.notif-head { padding:18px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(201,168,76,0.15); background:#0f1c2e; }
+.notif-head h3 { font-size:16px; font-weight:700; color:#e2e8f0; }
+.notif-list { flex:1; overflow-y:auto; padding:12px; }
+.notif-item { background:var(--navy-card); border-radius:12px; padding:14px; margin-bottom:10px; border:1px solid rgba(255,255,255,0.05); cursor:pointer; transition:0.2s; }
+.notif-item:active { transform:scale(0.98); }
+.notif-item .n-title { font-size:13px; font-weight:700; color:#e2e8f0; margin-bottom:4px; }
+.notif-item .n-sub { font-size:11px; color:#64748b; }
+.notif-item .n-amt { font-size:14px; font-weight:800; margin-top:6px; }
+.notif-empty { text-align:center; padding:50px 20px; color:#64748b; font-size:13px; }
+
+/* Feature / Coming Soon modal (styled) */
+.feat-modal .modal-box { text-align:center; }
+.feat-icon { width:72px; height:72px; margin:0 auto 18px; border-radius:20px; background:linear-gradient(145deg,#1a2d4a,#0f1c30); border:1px solid rgba(201,168,76,0.3); display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--gold); }
+.feat-modal h3 { color:#e2e8f0; margin-bottom:10px; }
+.feat-modal p { font-size:13.5px; color:#94a3b8; line-height:1.65; margin-bottom:22px; }
 
 /* Responsive */
 @media(max-width:900px){
@@ -626,7 +648,7 @@ img { max-width:100%; }
             <div class="greet-name" id="dashName">User</div>
           </div>
         </div>
-        <div class="notif-bell" onclick="toast('No new notifications')">
+        <div class="notif-bell" onclick="openNotif()">
           <i class="fas fa-bell"></i>
           <span class="badge" id="notifBadge" style="display:none;">0</span>
         </div>
@@ -647,13 +669,13 @@ img { max-width:100%; }
       <!-- Quick Services -->
       <div class="section-head"><i class="fas fa-bolt"></i> Quick Services <div class="line"></div></div>
       <div class="svc-grid">
-        <div class="svc-item" onclick="toast('Airtime top-up coming soon')"><div class="svc-icon"><i class="fas fa-mobile-alt"></i></div><div class="svc-lbl">Airtime</div></div>
-        <div class="svc-item" onclick="toast('Data bundle coming soon')"><div class="svc-icon"><i class="fas fa-wifi"></i></div><div class="svc-lbl">Data Bundle</div></div>
-        <div class="svc-item" onclick="toast('TV subscription coming soon')"><div class="svc-icon"><i class="fas fa-tv"></i></div><div class="svc-lbl">TV Sub</div></div>
-        <div class="svc-item" onclick="toast('Utilities payment coming soon')"><div class="svc-icon"><i class="fas fa-bolt"></i></div><div class="svc-lbl">Utilities</div></div>
-        <div class="svc-item" onclick="toast('Safe Box locked — contact support')"><div class="svc-icon"><i class="fas fa-vault"></i></div><div class="svc-lbl">Safe Box</div></div>
-        <div class="svc-item" onclick="toast('Loan requires verification. Contact support.')"><div class="svc-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="svc-lbl">Loan</div></div>
-        <div class="svc-item" onclick="toast('Play4Child charity coming soon')"><div class="svc-icon"><i class="fas fa-child"></i></div><div class="svc-lbl">Play4aChild</div></div>
+        <div class="svc-item" onclick="showFeat('fa-mobile-alt','Airtime Top-up','Instantly recharge any mobile number worldwide. This service will be available soon. Contact support for early access.')"><div class="svc-icon"><i class="fas fa-mobile-alt"></i></div><div class="svc-lbl">Airtime</div></div>
+        <div class="svc-item" onclick="showFeat('fa-wifi','Data Bundle','Purchase data bundles for local and international networks. Launching shortly.')"><div class="svc-icon"><i class="fas fa-wifi"></i></div><div class="svc-lbl">Data Bundle</div></div>
+        <div class="svc-item" onclick="showFeat('fa-tv','TV Subscription','Pay for DStv, Cable, Netflix and more directly from your vault. Coming soon.')"><div class="svc-icon"><i class="fas fa-tv"></i></div><div class="svc-lbl">TV Sub</div></div>
+        <div class="svc-item" onclick="showFeat('fa-bolt','Utilities Payment','Pay electricity, water, gas and internet bills securely. Feature in final testing.')"><div class="svc-icon"><i class="fas fa-bolt"></i></div><div class="svc-lbl">Utilities</div></div>
+        <div class="svc-item" onclick="showFeat('fa-vault','Safe Box','Lock funds for a set period with higher yield. Contact support to activate your Safe Box.')"><div class="svc-icon"><i class="fas fa-vault"></i></div><div class="svc-lbl">Safe Box</div></div>
+        <div class="svc-item" onclick="showFeat('fa-hand-holding-usd','Personal Loan','Apply for instant loans based on your account history. Verification required — contact support.')"><div class="svc-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="svc-lbl">Loan</div></div>
+        <div class="svc-item" onclick="showFeat('fa-child','Play4aChild','Support underprivileged children with every transfer. Charity module launching soon.')"><div class="svc-icon"><i class="fas fa-child"></i></div><div class="svc-lbl">Play4aChild</div></div>
         <div class="svc-item" onclick="switchTab('finance')"><div class="svc-icon"><i class="fas fa-th"></i></div><div class="svc-lbl">More</div></div>
       </div>
 
@@ -664,8 +686,8 @@ img { max-width:100%; }
         <div class="svc-item" onclick="switchTab('card')"><div class="svc-icon"><i class="fas fa-credit-card"></i></div><div class="svc-lbl">My Card</div></div>
         <div class="svc-item" onclick="switchTab('finance')"><div class="svc-icon"><i class="fas fa-chart-line"></i></div><div class="svc-lbl">Analytics</div></div>
         <div class="svc-item" onclick="switchTab('rewards')"><div class="svc-icon"><i class="fas fa-gift"></i></div><div class="svc-lbl">Rewards</div></div>
-        <div class="svc-item" onclick="toast('FX Exchange — contact support for rates')"><div class="svc-icon"><i class="fas fa-exchange-alt"></i></div><div class="svc-lbl">FX Exchange</div></div>
-        <div class="svc-item" onclick="toast('Savings products coming soon')"><div class="svc-icon"><i class="fas fa-piggy-bank"></i></div><div class="svc-lbl">Savings</div></div>
+        <div class="svc-item" onclick="showFeat('fa-exchange-alt','FX Exchange','Convert between major currencies at competitive institutional rates. Contact support for live quotes.')"><div class="svc-icon"><i class="fas fa-exchange-alt"></i></div><div class="svc-lbl">FX Exchange</div></div>
+        <div class="svc-item" onclick="showFeat('fa-piggy-bank','Savings Products','Fixed deposit and high-yield savings plans with up to 12% APR. Coming soon.')"><div class="svc-icon"><i class="fas fa-piggy-bank"></i></div><div class="svc-lbl">Savings</div></div>
         <div class="svc-item" onclick="openHistory()"><div class="svc-icon"><i class="fas fa-file-invoice"></i></div><div class="svc-lbl">Statements</div></div>
         <div class="svc-item" onclick="switchTab('me')"><div class="svc-icon"><i class="fas fa-user"></i></div><div class="svc-lbl">My Profile</div></div>
       </div>
@@ -673,17 +695,17 @@ img { max-width:100%; }
       <!-- Lifestyle -->
       <div class="section-head"><i class="fas fa-globe"></i> Lifestyle Services <div class="line"></div></div>
       <div class="svc-grid">
-        <div class="svc-item" onclick="toast('Flight booking coming soon')"><div class="svc-icon"><i class="fas fa-plane"></i></div><div class="svc-lbl">Book Flight</div></div>
-        <div class="svc-item" onclick="toast('Hotel booking coming soon')"><div class="svc-icon"><i class="fas fa-hotel"></i></div><div class="svc-lbl">Hotels</div></div>
-        <div class="svc-item" onclick="toast('Insurance products coming soon')"><div class="svc-icon"><i class="fas fa-shield-alt"></i></div><div class="svc-lbl">Insurance</div></div>
-        <div class="svc-item" onclick="toast('Car hire coming soon')"><div class="svc-icon"><i class="fas fa-car"></i></div><div class="svc-lbl">Car Hire</div></div>
-        <div class="svc-item" onclick="toast('Yacht charter coming soon')"><div class="svc-icon"><i class="fas fa-ship"></i></div><div class="svc-lbl">Yacht</div></div>
-        <div class="svc-item" onclick="toast('Dining reservations coming soon')"><div class="svc-icon"><i class="fas fa-utensils"></i></div><div class="svc-lbl">Dining</div></div>
-        <div class="svc-item" onclick="toast('Shopping partners coming soon')"><div class="svc-icon"><i class="fas fa-shopping-bag"></i></div><div class="svc-lbl">Shopping</div></div>
-        <div class="svc-item" onclick="toast('Concierge: contact support')"><div class="svc-icon"><i class="fas fa-concierge-bell"></i></div><div class="svc-lbl">Concierge</div></div>
+        <div class="svc-item" onclick="showFeat('fa-plane','Book Flight','Search and book flights worldwide with exclusive Netadol member rates. Launching soon.')"><div class="svc-icon"><i class="fas fa-plane"></i></div><div class="svc-lbl">Book Flight</div></div>
+        <div class="svc-item" onclick="showFeat('fa-hotel','Hotels','Premium hotel bookings and luxury stays. Partner network expanding.')"><div class="svc-icon"><i class="fas fa-hotel"></i></div><div class="svc-lbl">Hotels</div></div>
+        <div class="svc-item" onclick="showFeat('fa-shield-alt','Insurance','Life, travel and asset insurance products tailored for Netadol clients.')"><div class="svc-icon"><i class="fas fa-shield-alt"></i></div><div class="svc-lbl">Insurance</div></div>
+        <div class="svc-item" onclick="showFeat('fa-car','Car Hire','Rent premium vehicles in 100+ countries. Coming to the app soon.')"><div class="svc-icon"><i class="fas fa-car"></i></div><div class="svc-lbl">Car Hire</div></div>
+        <div class="svc-item" onclick="showFeat('fa-ship','Yacht Charter','Exclusive yacht and private boat charters for Netadol Platinum+ clients.')"><div class="svc-icon"><i class="fas fa-ship"></i></div><div class="svc-lbl">Yacht</div></div>
+        <div class="svc-item" onclick="showFeat('fa-utensils','Dining','Reserve tables at top restaurants and exclusive chef experiences.')"><div class="svc-icon"><i class="fas fa-utensils"></i></div><div class="svc-lbl">Dining</div></div>
+        <div class="svc-item" onclick="showFeat('fa-shopping-bag','Shopping','Curated shopping partners and cashback deals. Stay tuned.')"><div class="svc-icon"><i class="fas fa-shopping-bag"></i></div><div class="svc-lbl">Shopping</div></div>
+        <div class="svc-item" onclick="showFeat('fa-concierge-bell','Concierge','24/7 personal concierge. Contact support to request the service.')"><div class="svc-icon"><i class="fas fa-concierge-bell"></i></div><div class="svc-lbl">Concierge</div></div>
       </div>
 
-      <div class="promo-banner" onclick="toast('Contact support for fixed deposit yield plans')">
+      <div class="promo-banner" onclick="showFeat('fa-gift','Grow Your Savings','Lock funds in fixed vault deposits and earn up to 12% annual yield. Contact support@netadolb.info@gmail.com to open a plan.')">
         <div class="promo-icon"><i class="fas fa-gift"></i></div>
         <div class="promo-text"><h4>Grow Your Savings</h4><p>Up to 12% annual yield on fixed vault deposits</p></div>
         <i class="fas fa-chevron-right promo-arrow"></i>
@@ -717,6 +739,7 @@ img { max-width:100%; }
     <div class="tf-body">
       <div class="card-visual">
         <div class="chip"></div>
+        <div class="bank-name">Netadol Bank</div>
         <div class="c-num" id="cardNum">•••• •••• •••• ••••</div>
         <div class="c-bot">
           <div><div class="c-label">CARD HOLDER</div><div class="c-val" id="cardHolder">—</div></div>
@@ -820,25 +843,88 @@ img { max-width:100%; }
     </div>
   </div>
 
-  <!-- ME TAB -->
-  <div id="tab-me" style="display:none;">
+  <!-- ME TAB - full profile style (single account) -->
+  <div id="tab-me" style="display:none;padding-bottom:90px;">
     <div class="me-header">
       <div class="me-avatar" id="meAvatar">U</div>
       <div class="me-name" id="meName">—</div>
       <div class="me-email" id="meEmail">—</div>
+      <div style="margin-top:10px;display:inline-block;background:rgba(201,168,76,0.15);color:var(--gold);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:0.5px;" id="meTier">SILVER TIER CLIENT</div>
     </div>
+
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:0 14px;margin-bottom:18px;">
+      <div style="background:var(--navy-card);border-radius:14px;padding:14px 8px;text-align:center;border:1px solid rgba(201,168,76,0.12);">
+        <div style="font-size:20px;font-weight:800;color:var(--gold);" id="mePts">0</div>
+        <div style="font-size:10px;color:#64748b;font-weight:600;margin-top:2px;">POINTS</div>
+      </div>
+      <div style="background:var(--navy-card);border-radius:14px;padding:14px 8px;text-align:center;border:1px solid rgba(0,166,247,0.12);">
+        <div style="font-size:20px;font-weight:800;color:#fff;" id="meTxCount">0</div>
+        <div style="font-size:10px;color:#64748b;font-weight:600;margin-top:2px;">TRANSACTIONS</div>
+      </div>
+      <div style="background:var(--navy-card);border-radius:14px;padding:14px 8px;text-align:center;border:1px solid rgba(0,166,247,0.12);">
+        <div style="font-size:20px;font-weight:800;color:#fff;" id="meRating">AAA</div>
+        <div style="font-size:10px;color:#64748b;font-weight:600;margin-top:2px;">RATING</div>
+      </div>
+    </div>
+
+    <!-- Personal Information -->
+    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-user"></i> Personal Information <div class="line"></div></div>
     <div class="info-card">
-      <div class="info-row"><span class="lbl">Account ID</span><span class="val" id="meId">—</span></div>
-      <div class="info-row"><span class="lbl">Account Number</span><span class="val" id="meAcc">—</span></div>
       <div class="info-row"><span class="lbl">Full Name</span><span class="val" id="meFull">—</span></div>
-      <div class="info-row"><span class="lbl">Email</span><span class="val" id="meEmail2">—</span></div>
-      <div class="info-row"><span class="lbl">Phone</span><span class="val" id="mePhone">—</span></div>
-      <div class="info-row"><span class="lbl">Country</span><span class="val" id="meCountry">—</span></div>
-      <div class="info-row"><span class="lbl">Currency</span><span class="val" id="meCurr">—</span></div>
+      <div class="info-row"><span class="lbl">Email Address</span><span class="val" id="meEmail2">—</span></div>
+      <div class="info-row"><span class="lbl">Phone Number</span><span class="val" id="mePhone">—</span></div>
+      <div class="info-row"><span class="lbl">Country of Residence</span><span class="val" id="meCountry">—</span></div>
       <div class="info-row"><span class="lbl">Member Since</span><span class="val" id="meSince">—</span></div>
     </div>
-    <div style="padding:0 14px 20px;">
-      <button class="tf-submit" style="background:var(--error);margin-top:8px;" onclick="doSignOut()">Sign Out</button>
+
+    <!-- Vault Identity -->
+    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-fingerprint"></i> Vault Identity <div class="line"></div></div>
+    <div class="info-card">
+      <div class="info-row"><span class="lbl">Netadol Vault ID</span><span class="val" id="meId">—</span></div>
+      <div class="info-row"><span class="lbl">Registered Country</span><span class="val" id="meCountry2">—</span></div>
+      <div class="info-row"><span class="lbl">Client Tier</span><span class="val" style="color:var(--gold);">Silver (Upgrade available)</span></div>
+      <div class="info-row"><span class="lbl">KYC Status</span><span class="val" style="color:var(--success);">Identity Verified ✓</span></div>
+    </div>
+
+    <!-- Primary Account (single) -->
+    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-university"></i> Primary Account <div class="line"></div></div>
+    <div class="info-card">
+      <div class="info-row"><span class="lbl">Account Name</span><span class="val" id="meAccName">—</span></div>
+      <div class="info-row"><span class="lbl">Account Number</span><span class="val" style="display:flex;align-items:center;gap:8px;"><span id="meAcc">—</span> <i class="fas fa-copy" style="color:var(--primary);cursor:pointer;font-size:12px;" onclick="copyText('meAcc')"></i></span></div>
+      <div class="info-row"><span class="lbl">Currency</span><span class="val" id="meCurr">—</span></div>
+      <div class="info-row"><span class="lbl">IBAN</span><span class="val" style="display:flex;align-items:center;gap:8px;"><span id="meIban">—</span> <i class="fas fa-copy" style="color:var(--primary);cursor:pointer;font-size:12px;" onclick="copyText('meIban')"></i></span></div>
+      <div class="info-row"><span class="lbl">SWIFT / BIC</span><span class="val" style="display:flex;align-items:center;gap:8px;"><span id="meSwift">NTADUSZZ</span> <i class="fas fa-copy" style="color:var(--primary);cursor:pointer;font-size:12px;" onclick="copyText('meSwift')"></i></span></div>
+      <div class="info-row"><span class="lbl">Bank Name</span><span class="val">Netadol Bank</span></div>
+      <div class="info-row"><span class="lbl">Bank Address</span><span class="val" style="font-size:11px;">Utah, United States of America</span></div>
+    </div>
+
+    <!-- Security -->
+    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-shield-alt"></i> Security <div class="line"></div></div>
+    <div class="info-card">
+      <div class="info-row" style="cursor:pointer;" onclick="toast('Password change available via support')"><span class="lbl"><i class="fas fa-key" style="margin-right:8px;color:var(--primary);"></i>Change Password</span><span class="val" style="color:#64748b;"><i class="fas fa-chevron-right"></i></span></div>
+      <div class="info-row" style="cursor:pointer;" onclick="toast('2FA setup coming soon')"><span class="lbl"><i class="fas fa-mobile-alt" style="margin-right:8px;color:var(--primary);"></i>Two-Factor Authentication</span><span class="val" style="color:#64748b;"><i class="fas fa-chevron-right"></i></span></div>
+      <div class="info-row" style="cursor:pointer;" onclick="toast('Biometric login available on supported devices')"><span class="lbl"><i class="fas fa-fingerprint" style="margin-right:8px;color:var(--primary);"></i>Biometric Login</span><span class="val" style="color:#64748b;"><i class="fas fa-chevron-right"></i></span></div>
+    </div>
+
+    <!-- Settings -->
+    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-cog"></i> Settings & Preferences <div class="line"></div></div>
+    <div class="info-card">
+      <div class="info-row" style="cursor:pointer;" onclick="toast('Notification preferences updated')"><span class="lbl"><i class="fas fa-bell" style="margin-right:8px;color:var(--primary);"></i>Notification Preferences</span><span class="val" style="color:#64748b;"><i class="fas fa-chevron-right"></i></span></div>
+      <div class="info-row"><span class="lbl"><i class="fas fa-globe" style="margin-right:8px;color:var(--primary);"></i>Language & Region</span><span class="val">English</span></div>
+      <div class="info-row"><span class="lbl"><i class="fas fa-coins" style="margin-right:8px;color:var(--primary);"></i>Currency Display</span><span class="val" id="meCurrDisp">Primary</span></div>
+    </div>
+
+    <!-- Support -->
+    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-headset"></i> Support & Help <div class="line"></div></div>
+    <div class="info-card">
+      <div class="info-row" style="cursor:pointer;" onclick="toast('Connecting to live chat...')"><span class="lbl"><i class="fas fa-comment-dots" style="margin-right:8px;color:var(--primary);"></i>Live Chat Support</span><span class="val" style="color:#64748b;font-size:11px;">~2 min</span></div>
+      <div class="info-row" style="cursor:pointer;" onclick="window.location.href='mailto:netadolb.info@gmail.com'"><span class="lbl"><i class="fas fa-envelope" style="margin-right:8px;color:var(--primary);"></i>Email Support</span><span class="val" style="color:#64748b;font-size:11px;">netadolb.info@gmail.com</span></div>
+      <div class="info-row" style="cursor:pointer;" onclick="toast('Help centre articles coming soon')"><span class="lbl"><i class="fas fa-book" style="margin-right:8px;color:var(--primary);"></i>Help Centre</span><span class="val" style="color:#64748b;"><i class="fas fa-chevron-right"></i></span></div>
+    </div>
+
+    <div style="padding:8px 14px 30px;">
+      <button class="tf-submit" style="background:var(--error);margin-top:4px;" onclick="doSignOut()"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
     </div>
   </div>
 
@@ -859,7 +945,7 @@ img { max-width:100%; }
     <span class="page-title">Transfer Money</span>
   </div>
   <div class="tf-body">
-    <div class="tf-disabled" id="tfDisabled"><i class="fas fa-ban"></i> Transfer is temporarily disabled. Contact support.</div>
+    <div class="tf-disabled" id="tfDisabled"><i class="fas fa-ban"></i> You are unable to make any transactions now. Kindly contact our customer service (netadolb.info@gmail.com). No funds will be deducted if you attempt a transfer.</div>
     <div class="tf-label">Recipient Name</div>
     <input class="tf-input" id="tfName" placeholder="Full name of recipient">
     <div class="tf-label">Account Number</div>
@@ -929,7 +1015,7 @@ img { max-width:100%; }
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('receiptMod').classList.remove('show')"><i class="fas fa-times"></i></button>
     <div class="receipt-ok" id="receiptBox">
-      <div class="icon"><i class="fas fa-check"></i></div>
+      <div class="icon" id="rcIcon"><i class="fas fa-check"></i></div>
       <h3 id="rcTitle">Transfer Successful</h3>
       <p style="font-size:13px;color:#64748b;margin-bottom:16px;" id="rcSub">Your funds have been sent</p>
       <div style="font-size:28px;font-weight:800;color:#fff;margin-bottom:20px;" id="rcAmt">$0.00</div>
@@ -939,7 +1025,30 @@ img { max-width:100%; }
       <div class="receipt-row"><span class="lbl">Status</span><span class="val" id="rcStatus" style="color:var(--success);">SUCCESS</span></div>
       <div class="receipt-row"><span class="lbl">Ref</span><span class="val" id="rcRef">—</span></div>
     </div>
-    <button class="tf-submit" style="margin-top:16px;" onclick="document.getElementById('receiptMod').classList.remove('show')">Close</button>
+    <button class="tf-submit" style="margin-top:12px;background:var(--gold);color:#0a1525;" onclick="downloadReceipt()"><i class="fas fa-download"></i> Download Receipt</button>
+    <button class="tf-submit" style="margin-top:10px;background:transparent;border:1.5px solid rgba(255,255,255,0.2);" onclick="document.getElementById('receiptMod').classList.remove('show')">Close</button>
+  </div>
+</div>
+
+<!-- NOTIFICATION PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head">
+    <h3><i class="fas fa-bell" style="color:var(--gold);margin-right:8px;"></i>Notifications</h3>
+    <button onclick="closeNotif()" style="background:none;border:none;color:#94a3b8;font-size:18px;cursor:pointer;"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="notif-list" id="notifList">
+    <div class="notif-empty"><i class="fas fa-inbox" style="font-size:32px;display:block;margin-bottom:10px;opacity:0.4;"></i>No notifications yet</div>
+  </div>
+</div>
+
+<!-- FEATURE / COMING SOON MODAL (styled) -->
+<div class="modal feat-modal" id="featMod">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('featMod').classList.remove('show')"><i class="fas fa-times"></i></button>
+    <div class="feat-icon" id="featIcon"><i class="fas fa-rocket"></i></div>
+    <h3 id="featTitle">Coming Soon</h3>
+    <p id="featDesc">This feature is currently under development. Stay tuned for updates or contact support for early access.</p>
+    <button class="tf-submit" onclick="document.getElementById('featMod').classList.remove('show')">Got it</button>
   </div>
 </div>
 
@@ -1156,7 +1265,7 @@ function refreshDash(d) {
   document.getElementById('dashAvatar').innerText = av;
   document.getElementById('meAvatar').innerText = av;
 
-  // Me
+  // Me full
   document.getElementById('meName').innerText = d.fullName || '—';
   document.getElementById('meEmail').innerText = d.email || '—';
   document.getElementById('meId').innerText = d.id || '—';
@@ -1165,8 +1274,15 @@ function refreshDash(d) {
   document.getElementById('meEmail2').innerText = d.email || '—';
   document.getElementById('mePhone').innerText = d.phone || '—';
   document.getElementById('meCountry').innerText = (d.countryFlag||'')+' '+(d.country||'—');
+  document.getElementById('meCountry2').innerText = (d.countryFlag||'')+' '+(d.country||'—');
   document.getElementById('meCurr').innerText = (d.currency||'USD')+' ('+(d.symbol||'$')+')';
+  document.getElementById('meCurrDisp').innerText = (d.currency||'USD');
   document.getElementById('meSince').innerText = d.createdAt ? new Date(d.createdAt).toLocaleDateString() : '—';
+  document.getElementById('meAccName').innerText = d.fullName || '—';
+  // Generate simple IBAN style
+  const iban = 'US' + (d.accountNumber||'0000000000').slice(-10).padStart(14,'0').replace(/(.{4})/g,'$1 ').trim();
+  document.getElementById('meIban').innerText = iban;
+  document.getElementById('meSwift').innerText = 'NTADUSZZ';
 
   // Card
   document.getElementById('cardNum').innerText = maskCard(d.cardNumber || d.accountNumber);
@@ -1178,10 +1294,11 @@ function refreshDash(d) {
   document.getElementById('depAcc').innerText = d.accountNumber || '—';
   document.getElementById('depCurr').innerText = d.currency || 'USD';
 
-  // Transfer disable
+  // Transfer disable banner (but keep button enabled so user can still try and get proper message)
   const dis = d.transferEnabled === false;
   document.getElementById('tfDisabled').classList.toggle('show', dis);
-  document.getElementById('tfSubmit').disabled = dis;
+  // Do NOT permanently disable the button — logic inside doTransfer will block & not deduct
+  document.getElementById('tfSubmit').disabled = false;
 }
 
 window.toggleVis = () => {
@@ -1230,16 +1347,21 @@ window.switchTab = (tab) => {
   if(tab==='home') loadTx();
 };
 
-window.openTransfer = () => document.getElementById('transferPage').classList.add('show');
+window.openTransfer = () => {
+  if(U) {
+    const dis = U.transferEnabled === false;
+    document.getElementById('tfDisabled').classList.toggle('show', dis);
+  }
+  document.getElementById('transferPage').classList.add('show');
+};
 window.openWithdraw = () => document.getElementById('withdrawPage').classList.add('show');
 window.openDeposit = () => document.getElementById('depositPage').classList.add('show');
 window.openHistory = () => { document.getElementById('historyPage').classList.add('show'); loadTx(); };
 window.closePage = (id) => document.getElementById(id).classList.remove('show');
 
-// Transfer
+// Transfer — full logic with admin disable protection (no deduct on fail)
 window.doTransfer = async () => {
   if(!U || !UID) return;
-  if(U.transferEnabled === false) { alert('Transfer is currently disabled. Contact netadolb.info@gmail.com'); return; }
   const name = document.getElementById('tfName').value.trim();
   const acc = document.getElementById('tfAcc').value.trim();
   const bank = document.getElementById('tfBank').value.trim();
@@ -1252,11 +1374,42 @@ window.doTransfer = async () => {
   if(pin !== U.vaultPin) return alert('Incorrect transaction PIN');
   if(amt > (U.balance||0)) return alert(`Insufficient balance. Available: ${fmt(U.balance, U.symbol)}`);
 
+  // ADMIN DISABLED — block completely, no money deducted
+  if(U.transferEnabled === false) {
+    const txId = genTxId();
+    const date = new Date().toLocaleString();
+    // Log as FAILED so it appears in history/notifications
+    await push(ref(db, `users/${UID}/transactions`), {
+      date, recipient: name, accNum: acc, bank: bank||'—', amount: amt,
+      currency: U.currency, currencySymbol: U.symbol, note, status: 'FAILED', type: 'TRANSFER', txId,
+      failReason: 'Transfer disabled by admin'
+    });
+    // Show clear message (no deduction happened)
+    document.getElementById('rcTitle').innerText = 'Transfer Blocked';
+    document.getElementById('rcSub').innerText = 'You are unable to make any transactions now. Kindly contact our customer service.';
+    document.getElementById('rcAmt').innerText = fmt(amt, U.symbol);
+    document.getElementById('rcDate').innerText = date;
+    document.getElementById('rcTo').innerText = name;
+    document.getElementById('rcAcc').innerText = acc;
+    document.getElementById('rcStatus').innerText = 'FAILED';
+    document.getElementById('rcStatus').style.color = 'var(--error)';
+    document.getElementById('rcRef').innerText = txId;
+    document.getElementById('rcIcon').innerHTML = '<i class="fas fa-ban"></i>';
+    document.getElementById('rcIcon').style.background = 'rgba(239,68,68,0.15)';
+    document.getElementById('rcIcon').style.color = 'var(--error)';
+    document.getElementById('receiptMod').classList.add('show');
+    closePage('transferPage');
+    loadNotifs();
+    return; // IMPORTANT: no balance change
+  }
+
   spin('Processing transfer...');
   const txId = genTxId();
   const date = new Date().toLocaleString();
   try {
+    // Deduct only when enabled
     await update(ref(db, 'users/'+UID), { balance: (U.balance||0) - amt });
+    // Credit internal recipient if found
     const all = await get(ref(db, 'users'));
     if(all.exists()) {
       const users = all.val();
@@ -1276,7 +1429,7 @@ window.doTransfer = async () => {
     unspin();
     closePage('transferPage');
     document.getElementById('rcTitle').innerText = 'Transfer Successful';
-    document.getElementById('rcSub').innerText = 'Your funds have been sent';
+    document.getElementById('rcSub').innerText = 'Your funds have been sent successfully';
     document.getElementById('rcAmt').innerText = fmt(amt, U.symbol);
     document.getElementById('rcDate').innerText = date;
     document.getElementById('rcTo').innerText = name;
@@ -1284,12 +1437,17 @@ window.doTransfer = async () => {
     document.getElementById('rcStatus').innerText = 'SUCCESS';
     document.getElementById('rcStatus').style.color = 'var(--success)';
     document.getElementById('rcRef').innerText = txId;
+    document.getElementById('rcIcon').innerHTML = '<i class="fas fa-check"></i>';
+    document.getElementById('rcIcon').style.background = 'rgba(16,185,129,0.15)';
+    document.getElementById('rcIcon').style.color = 'var(--success)';
     document.getElementById('receiptMod').classList.add('show');
     ['tfName','tfAcc','tfBank','tfAmount','tfPin','tfNote'].forEach(id => { const e=document.getElementById(id); if(e) e.value=''; });
+    loadNotifs();
   } catch(e) {
     unspin();
     await push(ref(db, `users/${UID}/transactions`), { date, recipient: name, amount: amt, currency: U.currency, currencySymbol: U.symbol, status: 'FAILED', type: 'TRANSFER', txId });
     alert('Transfer failed. Please try again.');
+    loadNotifs();
   }
 };
 
@@ -1330,7 +1488,121 @@ window.doWithdraw = async () => {
   } catch(e) { unspin(); alert('Withdrawal request failed.'); }
 };
 
-console.log('%c Netadol Bank v2.1 — Premium Dark Dashboard | Gold Accents | Single Currency | Full Tabs', 'color:#c9a84c;font-weight:800;font-size:14px;');
+// ===== HELPERS: Notif, Feature modal, Copy, Download Receipt =====
+window.showFeat = (icon, title, desc) => {
+  document.getElementById('featIcon').innerHTML = `<i class="fas ${icon}"></i>`;
+  document.getElementById('featTitle').innerText = title;
+  document.getElementById('featDesc').innerText = desc;
+  document.getElementById('featMod').classList.add('show');
+};
+
+window.openNotif = () => {
+  document.getElementById('notifPanel').classList.add('open');
+  loadNotifs();
+};
+window.closeNotif = () => document.getElementById('notifPanel').classList.remove('open');
+
+let _notifTxs = [];
+function loadNotifs() {
+  if(!UID) return;
+  get(ref(db, 'users/'+UID+'/transactions')).then(snap => {
+    const list = document.getElementById('notifList');
+    const badge = document.getElementById('notifBadge');
+    if(!snap.exists()) {
+      list.innerHTML = `<div class="notif-empty"><i class="fas fa-inbox" style="font-size:32px;display:block;margin-bottom:10px;opacity:0.4;"></i>No notifications yet</div>`;
+      badge.style.display = 'none';
+      document.getElementById('meTxCount').innerText = '0';
+      _notifTxs = [];
+      return;
+    }
+    _notifTxs = Object.values(snap.val()).reverse().slice(0,50);
+    document.getElementById('meTxCount').innerText = String(_notifTxs.length);
+    badge.innerText = _notifTxs.length > 9 ? '9+' : String(_notifTxs.length);
+    badge.style.display = _notifTxs.length ? 'flex' : 'none';
+    list.innerHTML = _notifTxs.map((tx,i) => {
+      const isOut = tx.type !== 'DEPOSIT' && tx.type !== 'CREDIT';
+      const sym = tx.currencySymbol || U?.symbol || '$';
+      const stColor = tx.status==='SUCCESS'?'var(--success)':tx.status==='PENDING'?'var(--warning)':'var(--error)';
+      return `<div class="notif-item" onclick="viewReceipt(${i})">
+        <div class="n-title">${tx.recipient || tx.type || 'Transaction'}</div>
+        <div class="n-sub">${tx.date||''} · ${tx.status||''}</div>
+        <div class="n-amt" style="color:${stColor}">${isOut?'-':'+'}${sym}${Number(tx.amount||0).toLocaleString(undefined,{minimumFractionDigits:2})}</div>
+      </div>`;
+    }).join('');
+  });
+}
+
+window.viewReceipt = (idx) => {
+  const tx = _notifTxs[idx];
+  if(!tx) return;
+  closeNotif();
+  const isFail = tx.status === 'FAILED';
+  document.getElementById('rcTitle').innerText = isFail ? 'Transaction Failed' : (tx.status==='PENDING' ? 'Pending Transaction' : 'Transaction Receipt');
+  document.getElementById('rcSub').innerText = isFail ? (tx.failReason || 'This transaction could not be completed') : 'Transaction details';
+  document.getElementById('rcAmt').innerText = fmt(tx.amount, tx.currencySymbol || U?.symbol);
+  document.getElementById('rcDate').innerText = tx.date || '—';
+  document.getElementById('rcTo').innerText = tx.recipient || '—';
+  document.getElementById('rcAcc').innerText = tx.accNum || '—';
+  document.getElementById('rcStatus').innerText = tx.status || '—';
+  document.getElementById('rcStatus').style.color = isFail ? 'var(--error)' : (tx.status==='PENDING' ? 'var(--warning)' : 'var(--success)');
+  document.getElementById('rcRef').innerText = tx.txId || '—';
+  document.getElementById('rcIcon').innerHTML = isFail ? '<i class="fas fa-ban"></i>' : (tx.status==='PENDING' ? '<i class="fas fa-clock"></i>' : '<i class="fas fa-check"></i>');
+  document.getElementById('rcIcon').style.background = isFail ? 'rgba(239,68,68,0.15)' : (tx.status==='PENDING' ? 'rgba(245,158,11,0.15)' : 'rgba(16,185,129,0.15)');
+  document.getElementById('rcIcon').style.color = isFail ? 'var(--error)' : (tx.status==='PENDING' ? 'var(--warning)' : 'var(--success)');
+  document.getElementById('receiptMod').classList.add('show');
+};
+
+window.copyText = (id) => {
+  const el = document.getElementById(id);
+  if(!el) return;
+  const text = el.innerText || el.value;
+  if(navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
+  } else {
+    toast('Copied: ' + text);
+  }
+};
+
+window.downloadReceipt = () => {
+  const title = document.getElementById('rcTitle').innerText;
+  const amt = document.getElementById('rcAmt').innerText;
+  const date = document.getElementById('rcDate').innerText;
+  const to = document.getElementById('rcTo').innerText;
+  const acc = document.getElementById('rcAcc').innerText;
+  const status = document.getElementById('rcStatus').innerText;
+  const ref = document.getElementById('rcRef').innerText;
+  const content = `
+NETADOL BANK — TRANSACTION RECEIPT
+==================================
+${title}
+Amount: ${amt}
+Date: ${date}
+Recipient: ${to}
+Account: ${acc}
+Status: ${status}
+Reference: ${ref}
+==================================
+Netadol Bank · Utah, USA
+netadolb.info@gmail.com
+  `.trim();
+  const blob = new Blob([content], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Netadol_Receipt_${ref || Date.now()}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Receipt downloaded');
+};
+
+// Also refresh notifs after loadTx
+const _origLoadTx = loadTx;
+loadTx = function() {
+  _origLoadTx();
+  loadNotifs();
+};
+
+console.log('%c Netadol Bank v2.2 — Full UI | Transfer Guard | Notif + Receipt Download | Premium Me', 'color:#c9a84c;font-weight:800;font-size:14px;');
 </script>
 </body>
 </html>
