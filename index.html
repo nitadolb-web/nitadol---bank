@@ -1,1633 +1,768 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Netadol Bank | Private E-Banking System</title>
-<link rel="icon" type="image/png" href="https://netadol.com/assets/images/logoIcon/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+<title>Will You Go On A Date With Me? 💌</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
 <style>
-:root {
-  --primary: #00a6f7;
-  --primary-dark: #0088d1;
-  --primary-light: #e6f6fe;
-  --navy: #0f1c2e;
-  --navy-mid: #162640;
-  --navy-card: #1a2d4a;
-  --gold: #c9a84c;
-  --text: #1a2132;
-  --text-muted: #64748b;
-  --bg: #f0f4f8;
-  --white: #ffffff;
-  --border: #e2e8f0;
-  --success: #10b981;
-  --error: #ef4444;
-  --warning: #f59e0b;
-  --shadow: 0 4px 20px rgba(0,0,0,0.06);
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden; }
-a { text-decoration:none; color:inherit; }
-img { max-width:100%; }
+  :root{
+    --pink-bg-1: #FFF3F6;
+    --pink-bg-2: #FFE1EA;
+    --pink-blush: #FFD9E4;
+    --rose: #FF6B9D;
+    --rose-deep: #E84C88;
+    --maroon: #B3184E;
+    --gold: #FFC857;
+    --white: #FFFFFF;
+  }
 
-/* SPINNER + TOAST */
-.spin-overlay { position:fixed; inset:0; z-index:99999; background:rgba(15,28,46,0.94); display:none; flex-direction:column; align-items:center; justify-content:center; gap:16px; }
-.spin-overlay.show { display:flex; }
-.spin-ring { width:48px; height:48px; border:4px solid rgba(0,166,247,0.25); border-top-color:var(--primary); border-radius:50%; animation:spin 0.8s linear infinite; }
-@keyframes spin { to { transform:rotate(360deg); } }
-.spin-text { color:#fff; font-size:14px; font-weight:600; letter-spacing:1px; }
-.toast { position:fixed; bottom:100px; left:50%; transform:translateX(-50%); background:var(--navy); color:#fff; padding:12px 24px; border-radius:30px; font-size:13px; font-weight:600; z-index:99999; opacity:0; pointer-events:none; transition:0.3s; box-shadow:0 8px 30px rgba(0,0,0,0.25); }
-.toast.show { opacity:1; }
+  html, body { margin:0; padding:0; overflow-x:hidden; background: var(--pink-bg-1); }
 
-/* ===== LANDING NAV ===== */
-.header { position:fixed; top:0; left:0; right:0; z-index:1000; background:var(--navy); }
-.header-inner { max-width:1200px; margin:0 auto; padding:0 20px; height:70px; display:flex; align-items:center; justify-content:space-between; }
-.logo img { height:38px; }
-.nav-menu { display:flex; gap:28px; align-items:center; }
-.nav-menu a { color:rgba(255,255,255,0.85); font-size:14px; font-weight:600; transition:0.2s; }
-.nav-menu a:hover, .nav-menu a.active { color:var(--primary); }
-.nav-right { display:flex; gap:12px; align-items:center; }
-.btn-outline { padding:9px 20px; border:1.5px solid rgba(255,255,255,0.4); border-radius:8px; color:#fff; font-size:13px; font-weight:700; background:transparent; cursor:pointer; transition:0.2s; }
-.btn-outline:hover { border-color:var(--primary); color:var(--primary); }
-.btn-primary { padding:9px 22px; background:var(--primary); color:#fff; border:none; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; transition:0.2s; }
-.btn-primary:hover { background:var(--primary-dark); }
-.mobile-toggle { display:none; background:none; border:none; color:#fff; font-size:22px; cursor:pointer; }
+  body{
+    font-family: 'Quicksand', sans-serif;
+    background: radial-gradient(circle at 20% 15%, #FFE9F0 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, #FFD3E2 0%, transparent 50%),
+                linear-gradient(160deg, var(--pink-bg-1) 0%, var(--pink-bg-2) 55%, #FFE7EE 100%);
+    min-height: 100vh;
+  }
 
-/* HERO */
-.hero { min-height:100vh; background:linear-gradient(rgba(15,28,46,0.75),rgba(15,28,46,0.7)), url('https://netadol.com/assets/images/frontend/banner/60c756944f1271623676564.jpg') center/cover no-repeat; display:flex; align-items:center; justify-content:center; text-align:center; padding:100px 20px 80px; }
-.hero-content { max-width:780px; }
-.hero h1 { font-size:clamp(32px,6vw,56px); font-weight:800; color:#fff; line-height:1.15; margin-bottom:20px; letter-spacing:-1px; }
-.hero p { font-size:clamp(15px,2.5vw,18px); color:rgba(255,255,255,0.9); margin-bottom:32px; line-height:1.7; }
-.hero .btn-primary { padding:14px 36px; font-size:15px; border-radius:10px; }
+  .font-display{ font-family: 'Playfair Display', serif; }
 
-/* FEATURES */
-.features { padding:80px 20px; background:#fff; }
-.features-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; }
-.feature-card { background:#fff; border-radius:16px; padding:32px 24px; box-shadow:var(--shadow); border:1px solid var(--border); transition:0.3s; text-align:center; }
-.feature-card:hover { transform:translateY(-8px); box-shadow:0 12px 40px rgba(0,166,247,0.12); border-color:var(--primary); }
-.feature-icon { width:64px; height:64px; margin:0 auto 18px; background:var(--primary-light); border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:26px; color:var(--primary); }
-.feature-card h3 { font-size:17px; font-weight:700; margin-bottom:10px; color:var(--navy); }
-.feature-card p { font-size:13.5px; color:var(--text-muted); line-height:1.65; }
+  ::selection{ background: var(--pink-blush); color: var(--maroon); }
 
-/* ABOUT */
-.about { padding:90px 20px; background:var(--bg); }
-.about-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center; }
-.about-img { border-radius:20px; overflow:hidden; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.12); }
-.about-img img { width:100%; height:380px; object-fit:cover; display:block; }
-.about-play { position:absolute; bottom:20px; right:20px; width:56px; height:56px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px; cursor:pointer; box-shadow:0 8px 25px rgba(0,166,247,0.4); }
-.section-label { font-size:13px; font-weight:700; color:var(--primary); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
-.section-label::before { content:""; width:24px; height:2px; background:var(--primary); }
-.about h2 { font-size:clamp(26px,4vw,36px); font-weight:800; color:var(--navy); margin-bottom:28px; line-height:1.25; }
-.about-item { display:flex; gap:16px; margin-bottom:22px; }
-.about-item-icon { width:48px; height:48px; background:var(--primary); border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; flex-shrink:0; }
-.about-item h4 { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:4px; }
-.about-item p { font-size:13.5px; color:var(--text-muted); }
+  /* ---------- floating hearts / flowers ---------- */
+  .particle-layer{
+    position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 5;
+  }
+  .particle{
+    position: absolute;
+    top: -10vh;
+    will-change: transform, opacity;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    filter: drop-shadow(0 2px 4px rgba(200,50,100,0.15));
+  }
+  @keyframes fall{
+    0%{ transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+    8%{ opacity: 1; }
+    50%{ transform: translateY(50vh) translateX(20px) rotate(180deg); }
+    92%{ opacity: 0.9; }
+    100%{ transform: translateY(112vh) translateX(-15px) rotate(360deg); opacity: 0; }
+  }
 
-/* SERVICES */
-.services { padding:90px 20px; background:linear-gradient(180deg,#00a6f7 0%,#0088d1 100%); color:#fff; position:relative; }
-.services::before { content:""; position:absolute; top:0; left:0; right:0; height:80px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80'%3E%3Cpath fill='%23f0f4f8' d='M0,40 C360,80 1080,0 1440,40 L1440,0 L0,0 Z'/%3E%3C/svg%3E") no-repeat center/cover; }
-.services-inner { max-width:1100px; margin:0 auto; text-align:center; padding-top:40px; }
-.services .section-label { color:rgba(255,255,255,0.9); justify-content:center; }
-.services .section-label::before { background:rgba(255,255,255,0.7); }
-.services h2 { font-size:clamp(26px,4vw,36px); font-weight:800; margin-bottom:40px; }
-.services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
-.svc-card { background:#fff; border-radius:16px; padding:36px 28px; text-align:left; color:var(--text); box-shadow:0 10px 40px rgba(0,0,0,0.1); transition:0.3s; }
-.svc-card:hover { transform:translateY(-6px); }
-.svc-card-icon { width:56px; height:56px; background:var(--primary-light); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--primary); margin-bottom:18px; }
-.svc-card h3 { font-size:18px; font-weight:700; color:var(--navy); margin-bottom:10px; }
-.svc-card p { font-size:13.5px; color:var(--text-muted); line-height:1.65; }
+  .burst-particle{
+    position: absolute;
+    animation-name: burstOut;
+    animation-timing-function: cubic-bezier(.2,.8,.3,1);
+    animation-fill-mode: forwards;
+  }
+  @keyframes burstOut{
+    0%{ transform: translate(0,0) scale(0.3) rotate(0deg); opacity: 1; }
+    70%{ opacity: 1; }
+    100%{ transform: translate(var(--tx), var(--ty)) scale(1.1) rotate(var(--rot)); opacity: 0; }
+  }
 
-/* WHY */
-.why { padding:90px 20px; background:linear-gradient(rgba(15,28,46,0.88),rgba(15,28,46,0.9)), url('https://netadol.com/assets/images/frontend/why_choose/60d497b25b98a1624545202.jpg') center/cover; color:#fff; }
-.why-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1.5fr; gap:40px; align-items:center; }
-.why h2 { font-size:clamp(26px,4vw,34px); font-weight:800; margin-bottom:20px; line-height:1.25; }
-.why .btn-primary { margin-top:20px; }
-.why-cards { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.why-card { background:rgba(255,255,255,0.08); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:28px; }
-.why-card-icon { font-size:28px; color:var(--primary); margin-bottom:14px; }
-.why-card h3 { font-size:17px; font-weight:700; margin-bottom:10px; }
-.why-card p { font-size:13px; color:rgba(255,255,255,0.8); line-height:1.6; }
+  /* ---------- screen transitions ---------- */
+  .screen-enter{ animation: screenIn 0.7s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes screenIn{
+    0%{ opacity: 0; transform: translateY(24px) scale(0.98); }
+    100%{ opacity: 1; transform: translateY(0) scale(1); }
+  }
 
-/* HOW */
-.how { padding:90px 20px; background:var(--bg); text-align:center; }
-.how-inner { max-width:1000px; margin:0 auto; }
-.how h2 { font-size:clamp(26px,4vw,34px); font-weight:800; color:var(--navy); margin-bottom:50px; }
-.how-steps { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-.how-step { flex:1; min-width:180px; }
-.how-num { width:70px; height:70px; border-radius:50%; background:var(--navy); color:#fff; font-size:24px; font-weight:800; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; border:4px solid var(--primary); }
-.how-step h3 { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:8px; }
-.how-step p { font-size:13px; color:var(--text-muted); max-width:180px; margin:0 auto; }
+  .pop-in{ animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1) both; }
+  @keyframes popIn{
+    0%{ opacity:0; transform: scale(0.7); }
+    100%{ opacity:1; transform: scale(1); }
+  }
 
-/* STATS */
-.stats { padding:70px 20px; background:var(--primary); text-align:center; color:#fff; }
-.stats h2 { font-size:clamp(24px,4vw,32px); font-weight:800; margin-bottom:12px; }
-.stats > p { opacity:0.9; margin-bottom:40px; font-size:15px; max-width:600px; margin-left:auto; margin-right:auto; }
-.stats-bar { max-width:900px; margin:0 auto; background:#fff; border-radius:16px; padding:28px 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:16px; box-shadow:0 15px 50px rgba(0,0,0,0.15); }
-.stat-item { text-align:center; }
-.stat-item i { font-size:24px; color:var(--primary); margin-bottom:8px; }
-.stat-num { font-size:28px; font-weight:900; color:var(--navy); letter-spacing:-1px; }
-.stat-label { font-size:12px; color:var(--text-muted); font-weight:600; margin-top:4px; }
+  /* ---------- yes button pulse ---------- */
+  .yes-btn{
+    animation: pulseGlow 1.8s ease-in-out infinite;
+  }
+  @keyframes pulseGlow{
+    0%, 100%{ box-shadow: 0 0 0 0 rgba(255,107,157,0.55), 0 10px 30px -8px rgba(232,76,136,0.55); transform: scale(1); }
+    50%{ box-shadow: 0 0 0 14px rgba(255,107,157,0), 0 14px 34px -6px rgba(232,76,136,0.65); transform: scale(1.035); }
+  }
 
-/* TESTIMONIALS */
-.testimonials { padding:90px 20px; background:var(--navy); color:#fff; }
-.testimonials-inner { max-width:1100px; margin:0 auto; text-align:center; }
-.testimonials h2 { font-size:clamp(26px,4vw,34px); font-weight:800; margin-bottom:40px; }
-.t-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
-.t-card { background:rgba(255,255,255,0.05); border:1px solid rgba(0,166,247,0.3); border-radius:16px; padding:28px; text-align:left; }
-.t-stars { color:#fbbf24; font-size:14px; margin-bottom:14px; letter-spacing:2px; }
-.t-card p { font-size:14px; color:rgba(255,255,255,0.85); line-height:1.7; margin-bottom:18px; }
-.t-author { font-weight:700; font-size:15px; }
-.t-role { font-size:12px; color:var(--primary); margin-top:2px; }
+  .no-btn{
+    transition: top 0.28s cubic-bezier(.2,.9,.35,1.1), left 0.28s cubic-bezier(.2,.9,.35,1.1), transform 0.15s ease;
+  }
 
-/* FAQ */
-.faq { padding:90px 20px; background:var(--bg); }
-.faq-inner { max-width:900px; margin:0 auto; }
-.faq h2 { text-align:center; font-size:clamp(26px,4vw,34px); font-weight:800; color:var(--navy); margin-bottom:12px; }
-.faq > .faq-inner > p { text-align:center; color:var(--text-muted); margin-bottom:40px; font-size:14px; }
-.faq-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-.faq-item { background:#fff; border-radius:12px; border:1px solid var(--border); overflow:hidden; transition:0.2s; }
-.faq-item.open { border-color:var(--primary); box-shadow:0 4px 20px rgba(0,166,247,0.1); }
-.faq-q { padding:18px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:14px; color:var(--navy); }
-.faq-q i { color:var(--primary); transition:0.3s; font-size:12px; }
-.faq-item.open .faq-q i { transform:rotate(180deg); }
-.faq-a { display:none; padding:0 20px 18px; font-size:13.5px; color:var(--text-muted); line-height:1.65; }
-.faq-item.open .faq-a { display:block; }
+  /* ---------- ticket / receipt ---------- */
+  .ticket{
+    position: relative;
+    background: var(--white);
+    border-radius: 22px;
+    box-shadow: 0 20px 60px -20px rgba(179,24,78,0.35), 0 2px 8px rgba(179,24,78,0.08);
+  }
+  .ticket::before, .ticket::after{
+    content: "";
+    position: absolute;
+    width: 28px; height: 28px;
+    background: var(--pink-bg-1);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: inset 0 0 0 1px rgba(179,24,78,0.06);
+  }
+  .ticket::before{ left: -14px; }
+  .ticket::after{ right: -14px; }
+  .ticket-perforation{
+    border-left: 2px dashed #F3B8CC;
+  }
 
-/* PARTNERS + SUBSCRIBE + FOOTER */
-.partners { padding:70px 20px; background:#fff; text-align:center; }
-.partners h2 { font-size:28px; font-weight:800; color:var(--navy); margin-bottom:40px; }
-.partner-logos { display:flex; flex-wrap:wrap; justify-content:center; gap:30px 40px; align-items:center; opacity:0.7; }
-.partner-logos img { height:36px; filter:grayscale(30%); transition:0.3s; }
-.partner-logos img:hover { filter:grayscale(0%); }
-.subscribe { padding:50px 20px; background:var(--navy); }
-.subscribe-inner { max-width:1000px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px; }
-.subscribe h4 { color:#fff; font-size:18px; font-weight:700; }
-.subscribe-form { display:flex; gap:0; flex:1; max-width:480px; }
-.subscribe-form input { flex:1; padding:14px 18px; border:1px solid rgba(255,255,255,0.2); border-radius:10px 0 0 10px; background:rgba(255,255,255,0.08); color:#fff; font-size:14px; outline:none; }
-.subscribe-form input::placeholder { color:rgba(255,255,255,0.5); }
-.subscribe-form button { padding:14px 28px; background:var(--primary); color:#fff; border:none; border-radius:0 10px 10px 0; font-weight:700; cursor:pointer; font-size:14px; }
-.footer { background:var(--navy); color:rgba(255,255,255,0.8); padding:60px 20px 30px; }
-.footer-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:40px; }
-.footer h3 { color:#fff; font-size:16px; font-weight:700; margin-bottom:18px; }
-.footer p { font-size:13.5px; line-height:1.7; margin-bottom:16px; }
-.footer-links { list-style:none; }
-.footer-links li { margin-bottom:10px; }
-.footer-links a { font-size:13.5px; transition:0.2s; }
-.footer-links a:hover { color:var(--primary); }
-.footer-contact li { display:flex; gap:12px; align-items:flex-start; margin-bottom:14px; font-size:13.5px; }
-.footer-contact i { color:var(--primary); margin-top:3px; }
-.socials { display:flex; gap:12px; margin-top:16px; }
-.socials a { width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; transition:0.2s; }
-.socials a:hover { background:var(--primary); }
-.footer-bottom { max-width:1100px; margin:40px auto 0; padding-top:24px; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
-.footer-bottom img { height:32px; }
-.footer-bottom p { font-size:12px; opacity:0.7; }
-.chat-btn { position:fixed; bottom:24px; right:24px; background:var(--primary); color:#fff; padding:12px 20px; border-radius:30px; font-weight:700; font-size:14px; display:flex; align-items:center; gap:8px; box-shadow:0 8px 30px rgba(0,166,247,0.4); z-index:900; cursor:pointer; border:none; }
+  .scrollbar-thin::-webkit-scrollbar{ width: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb{ background: var(--pink-blush); border-radius: 10px; }
 
-/* AUTH PAGES */
-.auth-page { display:none; position:fixed; inset:0; z-index:2000; background:var(--navy); overflow-y:auto; }
-.auth-page.show { display:flex; }
-.auth-split { display:grid; grid-template-columns:1fr 1fr; min-height:100vh; width:100%; }
-.auth-left { background:linear-gradient(rgba(15,28,46,0.55),rgba(15,28,46,0.6)), url('https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1200') center/cover; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:40px; color:#fff; text-align:center; }
-.auth-left h1 { font-size:clamp(28px,4vw,42px); font-weight:800; margin-bottom:12px; }
-.auth-left p { font-size:15px; opacity:0.9; max-width:360px; margin-bottom:28px; }
-.auth-left .back-btn { display:inline-flex; align-items:center; gap:8px; padding:10px 22px; border:1.5px solid rgba(255,255,255,0.5); border-radius:8px; color:#fff; font-weight:600; font-size:13px; background:transparent; cursor:pointer; }
-.auth-right { background:var(--navy); display:flex; flex-direction:column; justify-content:center; padding:40px 50px; max-width:520px; margin:0 auto; width:100%; }
-.auth-logo { text-align:right; margin-bottom:30px; }
-.auth-logo img { height:40px; }
-.auth-right h2 { font-size:22px; font-weight:800; color:#fff; margin-bottom:6px; }
-.auth-right .sub { font-size:13px; color:rgba(255,255,255,0.6); margin-bottom:28px; }
-.form-group { margin-bottom:16px; }
-.form-group label { display:block; font-size:12px; font-weight:600; color:rgba(255,255,255,0.7); margin-bottom:6px; }
-.form-group label .req { color:var(--primary); }
-.form-group input, .form-group select { width:100%; padding:13px 16px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:14px; outline:none; font-family:inherit; }
-.form-group input:focus, .form-group select:focus { border-color:var(--primary); background:rgba(0,166,247,0.08); }
-.form-group select option { background:var(--navy); color:#fff; }
-.form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-.auth-submit { width:100%; padding:15px; background:var(--primary); color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; margin-top:10px; }
-.auth-footer { text-align:center; margin-top:22px; font-size:13px; color:rgba(255,255,255,0.6); }
-.auth-footer a { color:var(--primary); font-weight:600; cursor:pointer; }
-.remember-row { display:flex; justify-content:space-between; align-items:center; margin:12px 0 18px; font-size:13px; color:rgba(255,255,255,0.7); }
-.country-wrap { position:relative; }
-.country-trigger { display:flex; align-items:center; gap:10px; padding:13px 16px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:10px; cursor:pointer; color:#fff; font-size:14px; }
-.country-dropdown { display:none; position:absolute; top:100%; left:0; right:0; max-height:220px; overflow-y:auto; background:var(--navy-mid); border:1px solid var(--primary); border-radius:0 0 10px 10px; z-index:100; }
-.country-dropdown.open { display:block; }
-.country-search { width:100%; padding:10px 14px; background:rgba(0,0,0,0.2); border:none; border-bottom:1px solid rgba(255,255,255,0.1); color:#fff; font-size:13px; outline:none; }
-.country-opt { padding:10px 14px; display:flex; align-items:center; gap:10px; cursor:pointer; font-size:13px; color:#fff; }
-.country-opt:hover { background:rgba(0,166,247,0.2); }
+  select{ -webkit-appearance:none; appearance:none; }
 
-/* ========== DASHBOARD (Dark Premium) ========== */
-#dash { display:none; min-height:100vh; background:#0a1525; max-width:480px; margin:0 auto; position:relative; }
-.dash-top { background:linear-gradient(165deg,#1e3a5f 0%,#142d4a 35%,#0c1e36 100%); padding:20px 18px 32px; color:#fff; position:relative; overflow:hidden; border-bottom:1px solid rgba(201,168,76,0.12); }
-.dash-top::before { content:""; position:absolute; top:-60px; right:-40px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(0,166,247,0.18) 0%,transparent 70%); }
-.dash-top::after { content:""; position:absolute; bottom:-50px; left:-30px; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle,rgba(201,168,76,0.12) 0%,transparent 70%); }
-.dash-greeting { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; position:relative; z-index:1; }
-.greet-left { display:flex; align-items:center; gap:12px; }
-.greet-avatar { width:44px; height:44px; border-radius:50%; background:linear-gradient(145deg,#1a3a5c,#0f2744); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:18px; color:var(--gold); border:2px solid rgba(201,168,76,0.35); }
-.greet-text { font-size:13px; opacity:0.8; }
-.greet-name { font-size:17px; font-weight:800; }
-.notif-bell { width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; position:relative; cursor:pointer; }
-.notif-bell .badge { position:absolute; top:-2px; right:-2px; background:var(--error); color:#fff; font-size:10px; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
-.vault-label { font-size:11px; letter-spacing:1.8px; text-transform:uppercase; opacity:0.75; margin-bottom:8px; position:relative; z-index:1; color:rgba(255,255,255,0.85); }
-.vault-bal { font-size:clamp(32px,8.5vw,40px); font-weight:800; letter-spacing:-1.5px; margin-bottom:6px; position:relative; z-index:1; display:flex; align-items:center; gap:12px; }
-.vault-bal .eye { font-size:16px; opacity:0.65; cursor:pointer; }
-.vault-acc { font-size:12px; opacity:0.7; font-family:'JetBrains Mono',monospace; margin-bottom:20px; position:relative; z-index:1; }
-.vault-actions { display:flex; gap:10px; position:relative; z-index:1; }
-.v-btn { flex:1; padding:13px; border-radius:14px; border:none; font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px; transition:0.2s; }
-.v-btn.add { background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.22); }
-.v-btn.tf { background:var(--gold); color:#0a1525; }
-.v-btn:active { transform:scale(0.97); }
+  .heart-emoji-btn{ transition: transform .18s ease, box-shadow .18s ease; }
+  .heart-emoji-btn:hover{ transform: translateY(-4px) scale(1.02); }
 
-/* Dashboard body */
-.dash-body { padding:0 14px 100px; margin-top:-12px; position:relative; z-index:2; }
-.section-head { display:flex; align-items:center; gap:8px; margin:24px 0 16px; color:#f0d78c; font-size:15px; font-weight:700; letter-spacing:0.2px; }
-.section-head i { color:var(--gold); font-size:16px; }
-.section-head .line { flex:1; height:1px; background:linear-gradient(90deg,rgba(201,168,76,0.45),transparent); margin-left:4px; }
-
-/* Service grids - matching premium dark gold style */
-.svc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px 8px; }
-.svc-item { display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; }
-.svc-icon { width:56px; height:56px; border-radius:18px; background:linear-gradient(145deg,#15253d 0%,#0f1c30 100%); border:1px solid rgba(201,168,76,0.18); display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--gold); transition:0.2s; box-shadow:0 4px 14px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04); }
-.svc-item:active .svc-icon { transform:scale(0.92); background:rgba(201,168,76,0.12); border-color:rgba(201,168,76,0.4); }
-.svc-lbl { font-size:10.5px; font-weight:600; color:#94a3b8; text-align:center; line-height:1.2; }
-
-/* Promo banner */
-.promo-banner { background:linear-gradient(135deg,var(--navy-card),#1e3a5f); border:1px solid rgba(0,166,247,0.2); border-radius:16px; padding:16px 18px; display:flex; align-items:center; gap:14px; margin:18px 0; cursor:pointer; }
-.promo-icon { width:44px; height:44px; border-radius:12px; background:rgba(0,166,247,0.2); display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:18px; flex-shrink:0; }
-.promo-text h4 { font-size:14px; font-weight:700; color:#fff; margin-bottom:2px; }
-.promo-text p { font-size:11px; color:#94a3b8; }
-.promo-arrow { margin-left:auto; color:var(--primary); }
-
-/* Market ticker */
-.market-row { display:flex; gap:10px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none; }
-.market-row::-webkit-scrollbar { display:none; }
-.m-card { min-width:120px; background:var(--navy-card); border:1px solid rgba(0,166,247,0.12); border-radius:14px; padding:12px 14px; }
-.m-card .m-name { font-size:10px; color:#64748b; font-weight:600; letter-spacing:0.5px; margin-bottom:4px; }
-.m-card .m-price { font-size:15px; font-weight:800; color:#fff; }
-.m-card .m-chg { font-size:11px; font-weight:600; margin-top:2px; }
-.m-card .m-chg.up { color:var(--success); }
-.m-card .m-chg.down { color:var(--error); }
-
-/* Recent activity */
-.tx-list { background:var(--navy-card); border-radius:16px; border:1px solid rgba(0,166,247,0.1); overflow:hidden; }
-.tx-row { display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.04); }
-.tx-row:last-child { border-bottom:none; }
-.tx-ico { width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
-.tx-ico.out { background:rgba(239,68,68,0.15); color:var(--error); }
-.tx-ico.in { background:rgba(16,185,129,0.15); color:var(--success); }
-.tx-meta { flex:1; min-width:0; }
-.tx-meta .t-name { font-size:13px; font-weight:600; color:#e2e8f0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.tx-meta .t-date { font-size:11px; color:#64748b; }
-.tx-right { text-align:right; }
-.tx-right .t-amt { font-size:13px; font-weight:700; color:#e2e8f0; }
-.tx-right .t-st { font-size:10px; font-weight:700; }
-
-/* Bottom nav dark - gold accent active */
-.bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; background:#0b1626; border-top:1px solid rgba(201,168,76,0.15); display:flex; z-index:200; padding:8px 0 14px; box-shadow:0 -8px 30px rgba(0,0,0,0.4); }
-.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; padding:6px; border:none; background:none; color:#64748b; font-size:10px; font-weight:600; cursor:pointer; transition:0.2s; }
-.nav-item.active { color:var(--gold); }
-.nav-item i { font-size:20px; }
-.nav-item.active i { color:var(--gold); }
-
-/* Page views - full mobile friendly */
-.page-view { display:none; position:fixed; inset:0; background:#0a1525; z-index:300; overflow-y:auto; width:100%; max-width:480px; left:50%; transform:translateX(-50%); -webkit-overflow-scrolling:touch; }
-.page-view.show { display:block; }
-.page-top { background:var(--navy-mid); padding:16px 18px; display:flex; align-items:center; gap:14px; border-bottom:1px solid rgba(0,166,247,0.1); position:sticky; top:0; z-index:10; }
-.page-back { width:40px; height:40px; border-radius:50%; background:rgba(0,166,247,0.15); border:none; color:var(--primary); font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.page-title { font-size:17px; font-weight:700; color:#e2e8f0; }
-.tf-body { padding:22px 18px 40px; min-height:calc(100vh - 70px); }
-.tf-label { font-size:12px; font-weight:600; color:#94a3b8; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
-.tf-input, .tf-select { width:100%; padding:16px 18px; border:1.5px solid rgba(0,166,247,0.18); border-radius:14px; font-size:16px; margin-bottom:18px; outline:none; font-family:inherit; background:var(--navy-card); color:#e2e8f0; -webkit-appearance:none; }
-.tf-input:focus, .tf-select:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(0,166,247,0.12); }
-.tf-input::placeholder { color:#475569; }
-.tf-select option { background:var(--navy); }
-.tf-submit { width:100%; padding:17px; background:var(--primary); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:700; cursor:pointer; margin-top:10px; letter-spacing:0.3px; }
-.tf-submit:disabled { opacity:0.45; cursor:not-allowed; }
-.tf-disabled { background:rgba(239,68,68,0.12); color:var(--error); padding:14px 16px; border-radius:12px; font-size:13.5px; font-weight:600; margin-bottom:18px; display:none; border:1px solid rgba(239,68,68,0.25); line-height:1.45; }
-.tf-disabled.show { display:block; }
-
-/* Card page - mature premium design */
-.card-visual { width:100%; max-width:360px; height:220px; margin:24px auto; background:linear-gradient(145deg,#0a1628 0%,#142d4a 40%,#1a3a5c 70%,#0f2744 100%); border-radius:20px; padding:26px 24px; position:relative; border:1px solid rgba(201,168,76,0.28); box-shadow:0 25px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06); color:#fff; overflow:hidden; }
-.card-visual::before { content:""; position:absolute; top:-40%; right:-20%; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(201,168,76,0.15) 0%,transparent 70%); }
-.card-visual::after { content:""; position:absolute; bottom:-30%; left:-10%; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle,rgba(0,166,247,0.12) 0%,transparent 70%); }
-.card-visual .chip { width:46px; height:34px; background:linear-gradient(135deg,#c9a84c,#e8d48b,#c9a84c); border-radius:7px; margin-bottom:20px; position:relative; z-index:1; box-shadow:0 2px 8px rgba(0,0,0,0.3); }
-.card-visual .bank-name { position:absolute; top:24px; right:24px; font-size:13px; font-weight:800; letter-spacing:1px; color:var(--gold); z-index:1; text-transform:uppercase; }
-.card-visual .c-num { font-family:'JetBrains Mono',monospace; font-size:19px; letter-spacing:3px; margin-bottom:22px; position:relative; z-index:1; }
-.card-visual .c-bot { display:flex; justify-content:space-between; align-items:flex-end; position:relative; z-index:1; }
-.card-visual .c-label { font-size:9px; opacity:0.55; letter-spacing:1.2px; text-transform:uppercase; }
-.card-visual .c-val { font-size:13px; font-weight:600; margin-top:3px; }
-.card-visual .c-logo { font-size:24px; font-weight:900; color:#fff; letter-spacing:1px; font-style:italic; }
-
-/* Profile / Me */
-.me-header { text-align:center; padding:36px 20px 24px; background:linear-gradient(180deg,#14253f 0%,#0a1525 100%); }
-.me-avatar { width:76px; height:76px; border-radius:50%; background:linear-gradient(145deg,#1a3a5c,#0f2744); display:flex; align-items:center; justify-content:center; font-size:30px; font-weight:800; color:var(--gold); margin:0 auto 14px; border:2px solid rgba(201,168,76,0.35); box-shadow:0 8px 25px rgba(0,0,0,0.3); }
-.me-name { font-size:20px; font-weight:800; color:#e2e8f0; }
-.me-email { font-size:13px; color:#94a3b8; margin-top:4px; }
-.info-card { background:var(--navy-card); border-radius:16px; margin:0 14px 14px; border:1px solid rgba(0,166,247,0.1); overflow:hidden; }
-.info-row { display:flex; justify-content:space-between; padding:14px 18px; border-bottom:1px solid rgba(255,255,255,0.04); font-size:13px; }
-.info-row:last-child { border-bottom:none; }
-.info-row .lbl { color:#64748b; }
-.info-row .val { color:#e2e8f0; font-weight:600; text-align:right; max-width:60%; word-break:break-all; }
-
-/* Modal */
-.modal { position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:5000; display:none; justify-content:center; align-items:center; padding:16px; }
-.modal.show { display:flex; }
-.modal-box { background:var(--navy-mid); border-radius:20px; padding:28px 24px; width:100%; max-width:400px; max-height:90vh; overflow-y:auto; border:1px solid rgba(0,166,247,0.2); color:#e2e8f0; }
-.modal-box h3 { font-size:18px; font-weight:800; margin-bottom:8px; }
-.modal-close { float:right; background:rgba(255,255,255,0.08); border:none; width:32px; height:32px; border-radius:50%; cursor:pointer; color:#94a3b8; }
-.receipt-ok { text-align:center; padding:10px 0; }
-.receipt-ok .icon { width:64px; height:64px; border-radius:50%; background:rgba(16,185,129,0.15); color:var(--success); font-size:28px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }
-.receipt-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:13px; }
-.receipt-row .lbl { color:#64748b; }
-.receipt-row .val { font-weight:600; color:#e2e8f0; }
-
-/* Notif panel */
-.notif-panel { position:fixed; top:0; right:0; bottom:0; width:100%; max-width:380px; background:#0d1b2e; z-index:4000; transform:translateX(100%); transition:0.3s ease; display:flex; flex-direction:column; box-shadow:-10px 0 40px rgba(0,0,0,0.4); }
-.notif-panel.open { transform:translateX(0); }
-.notif-head { padding:18px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(201,168,76,0.15); background:#0f1c2e; }
-.notif-head h3 { font-size:16px; font-weight:700; color:#e2e8f0; }
-.notif-list { flex:1; overflow-y:auto; padding:12px; }
-.notif-item { background:var(--navy-card); border-radius:12px; padding:14px; margin-bottom:10px; border:1px solid rgba(255,255,255,0.05); cursor:pointer; transition:0.2s; }
-.notif-item:active { transform:scale(0.98); }
-.notif-item .n-title { font-size:13px; font-weight:700; color:#e2e8f0; margin-bottom:4px; }
-.notif-item .n-sub { font-size:11px; color:#64748b; }
-.notif-item .n-amt { font-size:14px; font-weight:800; margin-top:6px; }
-.notif-empty { text-align:center; padding:50px 20px; color:#64748b; font-size:13px; }
-
-/* Feature / Coming Soon modal (styled) */
-.feat-modal .modal-box { text-align:center; }
-.feat-icon { width:72px; height:72px; margin:0 auto 18px; border-radius:20px; background:linear-gradient(145deg,#1a2d4a,#0f1c30); border:1px solid rgba(201,168,76,0.3); display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--gold); }
-.feat-modal h3 { color:#e2e8f0; margin-bottom:10px; }
-.feat-modal p { font-size:13.5px; color:#94a3b8; line-height:1.65; margin-bottom:22px; }
-
-/* Responsive */
-@media(max-width:900px){
-  .about-inner, .why-inner, .auth-split, .footer-inner, .faq-grid { grid-template-columns:1fr; }
-  .auth-left { display:none; }
-  .auth-right { max-width:100%; padding:30px 24px; }
-  .why-cards { grid-template-columns:1fr; }
-  .stats-bar { grid-template-columns:repeat(2,1fr); }
-  .nav-menu { display:none; }
-  .mobile-toggle { display:block; }
-  .how-steps { flex-direction:column; align-items:center; }
-}
-@media(max-width:480px){
-  .features-inner { grid-template-columns:1fr 1fr; }
-  .form-row { grid-template-columns:1fr; }
-}
+  @media (prefers-reduced-motion: reduce){
+    .particle, .yes-btn, .screen-enter, .pop-in { animation: none !important; }
+  }
 </style>
 </head>
 <body>
-
-<!-- SPINNER -->
-<div class="spin-overlay" id="spinOverlay">
-  <div class="spin-ring"></div>
-  <p class="spin-text" id="spinText">Processing...</p>
-</div>
-<div class="toast" id="toast"></div>
-
-<!-- ========== LANDING ========== -->
-<div id="landing">
-  <header class="header">
-    <div class="header-inner">
-      <a class="logo" href="#"><img src="https://netadol.com/assets/images/logoIcon/logo.png" alt="Netadol"></a>
-      <nav class="nav-menu">
-        <a href="#home" class="active">HOME</a>
-        <a href="#about">ABOUT US</a>
-        <a href="#services">SERVICES</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact">CONTACT</a>
-      </nav>
-      <div class="nav-right">
-        <button class="btn-outline" onclick="showAuth('login')">Sign In</button>
-        <button class="btn-primary" onclick="showAuth('register')">Sign Up</button>
-      </div>
-      <button class="mobile-toggle" onclick="document.querySelector('.nav-menu').classList.toggle('show')"><i class="fas fa-bars"></i></button>
-    </div>
-  </header>
-
-  <section class="hero" id="home">
-    <div class="hero-content">
-      <h1>Welcome to the Largest E-banking System</h1>
-      <p>Netadolbank is a safe, fast, easy, and efficient e-Banking system that enables you access to your bank account and to carry out online banking services, 24/7</p>
-      <button class="btn-primary" onclick="showAuth('register')">Create an Account</button>
-    </div>
-  </section>
-
-  <section class="features">
-    <div class="features-inner">
-      <div class="feature-card"><div class="feature-icon"><i class="fas fa-file-invoice-dollar"></i></div><h3>Online Payment</h3><p>We have online payment services like PayPal, Stripe, Paystack, Skrill, Flutterwave, Mollie, Payeer, RazorPay, etc.</p></div>
-      <div class="feature-card"><div class="feature-icon"><i class="fas fa-coins"></i></div><h3>Take Loan</h3><p>We have several plans to apply for a loan. You may apply to our loan plans by submitting some of your valid information.</p></div>
-      <div class="feature-card"><div class="feature-icon"><i class="fas fa-wallet"></i></div><h3>Deposit Schemes</h3><p>We have two deposit schemes for you, one is Deposit Pension Scheme and another one is the Fixed Deposit Receipt.</p></div>
-      <div class="feature-card"><div class="feature-icon"><i class="fas fa-exchange-alt"></i></div><h3>Transfer Money</h3><p>You are able to transfer your funds within the Netadol bank or other banks we support by adding your beneficiaries</p></div>
-    </div>
-  </section>
-
-  <section class="about" id="about">
-    <div class="about-inner">
-      <div class="about-img">
-        <img src="https://netadol.com/assets/images/frontend/about/60c75675a19651623676533.jpg" alt="About">
-        <div class="about-play"><i class="fas fa-play"></i></div>
-      </div>
-      <div>
-        <div class="section-label">About Us</div>
-        <h2>We care about your money and safety.</h2>
-        <div class="about-item"><div class="about-item-icon"><i class="fas fa-hourglass-start"></i></div><div><h4>Our Mission</h4><p>We are focused on building and sustaining long-term generational relationships with our customers</p></div></div>
-        <div class="about-item"><div class="about-item-icon"><i class="fas fa-eye"></i></div><div><h4>Our Vision</h4><p>Netadol Bank will serve all over the world and becomes the most popular Bank in this universe.</p></div></div>
-        <div class="about-item"><div class="about-item-icon"><i class="fas fa-bullseye"></i></div><div><h4>Our Goal</h4><p>Netadol Bank will serve their customers from all over the world and becomes the popular bank in this universe.</p></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="services" id="services">
-    <div class="services-inner">
-      <div class="section-label">Our Services</div>
-      <h2>We make your life comfortable with our services.</h2>
-      <div class="services-grid">
-        <div class="svc-card"><div class="svc-card-icon"><i class="fas fa-exchange-alt"></i></div><h3>Fast Transfer</h3><p>Our Money transfer system is secure and easy. Send your funds to your beneficiaries within Netadolbank or to other banks. Transfer within Netadolbank is instant and to other banks may take 24 hours.</p></div>
-        <div class="svc-card"><div class="svc-card-icon"><i class="fas fa-credit-card"></i></div><h3>Deposit Funds</h3><p>Account-holders of Netadolbank are able to deposit their money through our several payment systems. We have online payment services like PayPal, Stripe, Paystack, Skrill, Flutterwave, Mollie, Payeer, etc.</p></div>
-        <div class="svc-card"><div class="svc-card-icon"><i class="fas fa-money-check-alt"></i></div><h3>Withdraw Funds</h3><p>Account-holders of Netadolbank are able to withdraw money from their account. Without verification, any withdrawal won't be completed, so you can trust Netadolbank.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="why">
-    <div class="why-inner">
-      <div>
-        <div class="section-label" style="color:var(--primary);">Why Choose Us?</div>
-        <h2>We are giving you the best services</h2>
-        <button class="btn-primary" onclick="showAuth('register')">Get Started</button>
-      </div>
-      <div class="why-cards">
-        <div class="why-card"><div class="why-card-icon"><i class="fas fa-user-shield"></i></div><h3>Secure Service</h3><p>Every balance subtracting transactions need OTP verification so You can feel safe about your funds. Also, you can use the google authenticator app on your cellphone and enable 2FA security from the account menu.</p></div>
-        <div class="why-card"><div class="why-card-icon"><i class="fas fa-file-invoice-dollar"></i></div><h3>Lowest Transaction Fee</h3><p>Our transaction fee is much low comparing to other banks. You can deposit, transfer, and withdraw your funds with the lowest transaction charge. As our transfer system is secure and robust you can trust us.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="how">
-    <div class="how-inner">
-      <div class="section-label" style="justify-content:center;">How it works</div>
-      <h2>It's easy to join with Us</h2>
-      <div class="how-steps">
-        <div class="how-step"><div class="how-num">1</div><h3>Open an Account</h3><p>To be an account holder you have to open an account first.</p></div>
-        <div class="how-step"><div class="how-num">2</div><h3>Verification</h3><p>After registration you need to verify your Email and Mobile Number.</p></div>
-        <div class="how-step"><div class="how-num">3</div><h3>Deposit</h3><p>Deposit some funds before applying on any FDR or DPS plans.</p></div>
-        <div class="how-step"><div class="how-num">4</div><h3>Get Service</h3><p>Now you can get any of our services as our registered account-holder</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="stats">
-    <h2>We provide our banking services all over the world</h2>
-    <p>Netadol Bank is a secure and robust e-Banking system getting popular all over the world nowadays. We offer the best FDR, DPS & Loan plans to our account holders</p>
-    <div class="stats-bar">
-      <div class="stat-item"><i class="fas fa-user-circle"></i><div class="stat-num">24M</div><div class="stat-label">Account Holders</div></div>
-      <div class="stat-item"><i class="fas fa-coins"></i><div class="stat-num">3B</div><div class="stat-label">Total Transaction</div></div>
-      <div class="stat-item"><i class="fas fa-project-diagram"></i><div class="stat-num">120</div><div class="stat-label">Total Branches</div></div>
-      <div class="stat-item"><i class="fas fa-globe"></i><div class="stat-num">240+</div><div class="stat-label">Countries We Serve</div></div>
-    </div>
-  </section>
-
-  <section class="testimonials">
-    <div class="testimonials-inner">
-      <h2>What Our Clients Say</h2>
-      <div class="t-grid">
-        <div class="t-card"><div class="t-stars">★★★★★</div><p>I had opened an account 5 years ago, I feel safe keeping my funds in Netadolbank. Their Deposit schemes plans are really helpful.</p><div class="t-author">Adam Gilly</div><div class="t-role">CTO, UYT</div></div>
-        <div class="t-card"><div class="t-stars">★★★★★</div><p>The is just awesome, best quality service ever I had. You can trust them and deposit your funds. Their Loan plans are really helpful</p><div class="t-author">Maria Ahsan</div><div class="t-role">Managing Director, YY</div></div>
-        <div class="t-card"><div class="t-stars">★★★★★</div><p>I had opened an account 3 years ago, I feel safe keeping my funds in Netadolbank. Their Deposit schemes plans are really helpful</p><div class="t-author">Michel Johnson</div><div class="t-role">Founder of ZZ</div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="faq" id="faq">
-    <div class="faq-inner">
-      <h2>Frequently Asked Questions</h2>
-      <p>Though we have provided lots of information about us and how we serve what is our working process our terms and conditions our policies etc.</p>
-      <div class="faq-grid">
-        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is opening an account free? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes, opening an account with Netadol Bank is completely free. There are no hidden charges for registration.</div></div>
-        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Is it possible to send money from Netadolbank to another bank? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Yes, you can transfer funds to other banks. Transfers within Netadolbank are instant; external transfers may take up to 24 hours.</div></div>
-        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How to open an account? <i class="fas fa-chevron-down"></i></div><div class="faq-a">Click the Sign Up button, provide all required information including your country, and complete the registration. You will then be able to log in immediately.</div></div>
-        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Does Netadolbank share our information for advertisement? <i class="fas fa-chevron-down"></i></div><div class="faq-a">No, we don't provide our account holder's information to any third-party organization.</div></div>
-        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How to take a loan? <i class="fas fa-chevron-down"></i></div><div class="faq-a">We have several loan plans. Choose the best plan suitable for you and just click on the Apply Now button and put the amount.</div></div>
-        <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How to open a FDR? <i class="fas fa-chevron-down"></i></div><div class="faq-a">We have several FDR plans. Choose the best plan suitable for you and just click on the Apply Now button and put the amount.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="partners">
-    <h2>Our Partners</h2>
-    <div class="partner-logos">
-      <img src="https://netadol.com/assets/images/frontend/partner_section/61000a7d441c71627392637.png" alt="p">
-      <img src="https://netadol.com/assets/images/frontend/partner_section/610009d71ce7c1627392471.png" alt="p">
-      <img src="https://netadol.com/assets/images/frontend/partner_section/61000905dec851627392261.png" alt="p">
-      <img src="https://netadol.com/assets/images/frontend/partner_section/610008c8078b71627392200.png" alt="p">
-      <img src="https://netadol.com/assets/images/frontend/partner_section/6100088e88e2d1627392142.png" alt="p">
-      <img src="https://netadol.com/assets/images/frontend/partner_section/6100084858a641627392072.png" alt="p">
-      <img src="https://netadol.com/assets/images/frontend/partner_section/610007f09805f1627391984.png" alt="p">
-    </div>
-  </section>
-
-  <section class="subscribe">
-    <div class="subscribe-inner">
-      <h4>Subscribe our newsletter and stay connected</h4>
-      <form class="subscribe-form" onsubmit="event.preventDefault(); toast('Subscribed successfully!'); this.reset();">
-        <input type="email" placeholder="Enter email address" required>
-        <button type="submit">Subscribe</button>
-      </form>
-    </div>
-  </section>
-
-  <footer class="footer" id="contact">
-    <div class="footer-inner">
-      <div>
-        <h3>About Us</h3>
-        <p>Netadolbank is a complete e-Banking system. We have account-holders from almost all over the world. This is getting popular day by day. Our system is secure and robust. You may feel safe about your deposited funds.</p>
-        <div class="socials">
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-        </div>
-      </div>
-      <div><h3>Quick Links</h3><ul class="footer-links"><li><a href="#" onclick="showAuth('register')">Register</a></li><li><a href="#about">Our Branches</a></li><li><a href="#contact">Contact</a></li></ul></div>
-      <div><h3>Page</h3><ul class="footer-links"><li><a href="#">Company Policy</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
-      <div>
-        <h3>Contact Us</h3>
-        <ul class="footer-contact" style="list-style:none;">
-          <li><i class="fas fa-map-marker-alt"></i> <span>Utah, United States of America</span></li>
-          <li><i class="fas fa-envelope"></i> <span>netadolb.info@gmail.com</span></li>
-          <li><i class="fas fa-phone"></i> <span>8111644757</span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <img src="https://netadol.com/assets/images/logoIcon/logo.png" alt="Netadol">
-      <p>Copyright © 2026 Netadol Bank. All Rights Reserved.</p>
-    </div>
-  </footer>
-  <button class="chat-btn" onclick="toast('Live chat connecting...')"><i class="fas fa-comment-dots"></i> Chat</button>
-</div>
-
-<!-- ========== LOGIN ========== -->
-<div class="auth-page" id="loginPage">
-  <div class="auth-split">
-    <div class="auth-left">
-      <h1>Welcome Back!</h1>
-      <p>Provide your username and password and login into your account</p>
-      <button class="back-btn" onclick="hideAuth()"><i class="fas fa-arrow-left"></i> Back to Home</button>
-    </div>
-    <div class="auth-right">
-      <div class="auth-logo"><img src="https://netadol.com/assets/images/logoIcon/logo.png" alt="Netadol"></div>
-      <h2>Sign In</h2>
-      <p class="sub">Enter your credentials to access your account</p>
-      <div class="form-group"><label>Username or Email <span class="req">*</span></label><input type="email" id="lEmail" placeholder="Enter email"></div>
-      <div class="form-group"><label>Password <span class="req">*</span></label><input type="password" id="lPass" placeholder="Enter password"></div>
-      <div class="remember-row"><label><input type="checkbox"> Remember Me</label><a href="#" style="color:var(--primary);">Forgot password?</a></div>
-      <button class="auth-submit" onclick="doLogin()">Login</button>
-      <div class="auth-footer">Don't have an account? <a onclick="showAuth('register')">Create New</a></div>
-    </div>
-  </div>
-</div>
-
-<!-- ========== REGISTER ========== -->
-<div class="auth-page" id="registerPage">
-  <div class="auth-split">
-    <div class="auth-left">
-      <h1>Create New Account</h1>
-      <p>You have to provide all of your valid information as we want.</p>
-      <button class="back-btn" onclick="hideAuth()"><i class="fas fa-arrow-left"></i> Back to Home</button>
-    </div>
-    <div class="auth-right">
-      <div class="auth-logo"><img src="https://netadol.com/assets/images/logoIcon/logo.png" alt="Netadol"></div>
-      <h2>Sign Up</h2>
-      <p class="sub">Open your Netadol Bank account in minutes</p>
-      <div class="form-row">
-        <div class="form-group"><label>Full Name <span class="req">*</span></label><input type="text" id="rName" placeholder="Your full name"></div>
-        <div class="form-group"><label>E-Mail Address <span class="req">*</span></label><input type="email" id="rEmail" placeholder="Email"></div>
-      </div>
-      <div class="form-group">
-        <label>Country <span class="req">*</span></label>
-        <div class="country-wrap">
-          <div class="country-trigger" id="countryTrigger" onclick="toggleCountry()">
-            <span id="selFlag">🌍</span>
-            <span id="selCountryName" style="flex:1;">Select Country</span>
-            <i class="fas fa-chevron-down" style="font-size:11px;opacity:0.6;"></i>
-          </div>
-          <div class="country-dropdown" id="countryDropdown">
-            <input class="country-search" id="countrySearch" placeholder="Search country..." oninput="filterCountries(this.value)">
-            <div id="countryList"></div>
-          </div>
-        </div>
-        <input type="hidden" id="rCountry"><input type="hidden" id="rCountryFlag"><input type="hidden" id="rCurrency"><input type="hidden" id="rSymbol">
-      </div>
-      <div class="form-group"><label>Mobile <span class="req">*</span></label><input type="tel" id="rPhone" placeholder="+1 234 567 8900"></div>
-      <div class="form-row">
-        <div class="form-group"><label>Password <span class="req">*</span></label><input type="password" id="rPass" placeholder="Min 6 characters"></div>
-        <div class="form-group"><label>Confirm Password <span class="req">*</span></label><input type="password" id="rPass2" placeholder="Confirm"></div>
-      </div>
-      <div class="form-group"><label>4-digit Transaction PIN <span class="req">*</span></label><input type="password" id="rPin" maxlength="4" placeholder="••••" style="letter-spacing:8px;text-align:center;font-size:20px;"></div>
-      <button class="auth-submit" onclick="doRegister()">Register</button>
-      <div class="auth-footer">Already have an account? <a onclick="showAuth('login')">Sign In</a></div>
-    </div>
-  </div>
-</div>
-
-<!-- ========== DASHBOARD ========== -->
-<div id="dash">
-  <!-- HOME TAB -->
-  <div id="tab-home">
-    <div class="dash-top">
-      <div class="dash-greeting">
-        <div class="greet-left">
-          <div class="greet-avatar" id="dashAvatar">U</div>
-          <div>
-            <div class="greet-text" id="greetText">Good day,</div>
-            <div class="greet-name" id="dashName">User</div>
-          </div>
-        </div>
-        <div class="notif-bell" onclick="openNotif()">
-          <i class="fas fa-bell"></i>
-          <span class="badge" id="notifBadge" style="display:none;">0</span>
-        </div>
-      </div>
-      <div class="vault-label" id="balLabel">AVAILABLE BALANCE</div>
-      <div class="vault-bal">
-        <span id="balAmount">$0.00</span>
-        <i class="fas fa-eye eye" id="eyeIcon" onclick="toggleVis()"></i>
-      </div>
-      <div class="vault-acc" id="balAcc">Account: ****</div>
-      <div class="vault-actions">
-        <button class="v-btn add" onclick="openDeposit()"><i class="fas fa-plus"></i> Add Money</button>
-        <button class="v-btn tf" onclick="openTransfer()"><i class="fas fa-paper-plane"></i> Transfer</button>
-      </div>
-    </div>
-
-    <div class="dash-body">
-      <!-- Quick Services -->
-      <div class="section-head"><i class="fas fa-bolt"></i> Quick Services <div class="line"></div></div>
-      <div class="svc-grid">
-        <div class="svc-item" onclick="showFeat('fa-mobile-alt','Airtime Top-up','Instantly recharge any mobile number worldwide. This service will be available soon. Contact support for early access.')"><div class="svc-icon"><i class="fas fa-mobile-alt"></i></div><div class="svc-lbl">Airtime</div></div>
-        <div class="svc-item" onclick="showFeat('fa-wifi','Data Bundle','Purchase data bundles for local and international networks. Launching shortly.')"><div class="svc-icon"><i class="fas fa-wifi"></i></div><div class="svc-lbl">Data Bundle</div></div>
-        <div class="svc-item" onclick="showFeat('fa-tv','TV Subscription','Pay for DStv, Cable, Netflix and more directly from your vault. Coming soon.')"><div class="svc-icon"><i class="fas fa-tv"></i></div><div class="svc-lbl">TV Sub</div></div>
-        <div class="svc-item" onclick="showFeat('fa-bolt','Utilities Payment','Pay electricity, water, gas and internet bills securely. Feature in final testing.')"><div class="svc-icon"><i class="fas fa-bolt"></i></div><div class="svc-lbl">Utilities</div></div>
-        <div class="svc-item" onclick="showFeat('fa-vault','Safe Box','Lock funds for a set period with higher yield. Contact support to activate your Safe Box.')"><div class="svc-icon"><i class="fas fa-vault"></i></div><div class="svc-lbl">Safe Box</div></div>
-        <div class="svc-item" onclick="showFeat('fa-hand-holding-usd','Personal Loan','Apply for instant loans based on your account history. Verification required — contact support.')"><div class="svc-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="svc-lbl">Loan</div></div>
-        <div class="svc-item" onclick="showFeat('fa-child','Play4aChild','Support underprivileged children with every transfer. Charity module launching soon.')"><div class="svc-icon"><i class="fas fa-child"></i></div><div class="svc-lbl">Play4aChild</div></div>
-        <div class="svc-item" onclick="switchTab('finance')"><div class="svc-icon"><i class="fas fa-th"></i></div><div class="svc-lbl">More</div></div>
-      </div>
-
-      <!-- Banking Tools -->
-      <div class="section-head"><i class="fas fa-university"></i> Banking Tools <div class="line"></div></div>
-      <div class="svc-grid">
-        <div class="svc-item" onclick="openTransfer()"><div class="svc-icon"><i class="fas fa-paper-plane"></i></div><div class="svc-lbl">Wire Transfer</div></div>
-        <div class="svc-item" onclick="switchTab('card')"><div class="svc-icon"><i class="fas fa-credit-card"></i></div><div class="svc-lbl">My Card</div></div>
-        <div class="svc-item" onclick="switchTab('finance')"><div class="svc-icon"><i class="fas fa-chart-line"></i></div><div class="svc-lbl">Analytics</div></div>
-        <div class="svc-item" onclick="switchTab('rewards')"><div class="svc-icon"><i class="fas fa-gift"></i></div><div class="svc-lbl">Rewards</div></div>
-        <div class="svc-item" onclick="showFeat('fa-exchange-alt','FX Exchange','Convert between major currencies at competitive institutional rates. Contact support for live quotes.')"><div class="svc-icon"><i class="fas fa-exchange-alt"></i></div><div class="svc-lbl">FX Exchange</div></div>
-        <div class="svc-item" onclick="showFeat('fa-piggy-bank','Savings Products','Fixed deposit and high-yield savings plans with up to 12% APR. Coming soon.')"><div class="svc-icon"><i class="fas fa-piggy-bank"></i></div><div class="svc-lbl">Savings</div></div>
-        <div class="svc-item" onclick="openHistory()"><div class="svc-icon"><i class="fas fa-file-invoice"></i></div><div class="svc-lbl">Statements</div></div>
-        <div class="svc-item" onclick="switchTab('me')"><div class="svc-icon"><i class="fas fa-user"></i></div><div class="svc-lbl">My Profile</div></div>
-      </div>
-
-      <!-- Lifestyle -->
-      <div class="section-head"><i class="fas fa-globe"></i> Lifestyle Services <div class="line"></div></div>
-      <div class="svc-grid">
-        <div class="svc-item" onclick="showFeat('fa-plane','Book Flight','Search and book flights worldwide with exclusive Netadol member rates. Launching soon.')"><div class="svc-icon"><i class="fas fa-plane"></i></div><div class="svc-lbl">Book Flight</div></div>
-        <div class="svc-item" onclick="showFeat('fa-hotel','Hotels','Premium hotel bookings and luxury stays. Partner network expanding.')"><div class="svc-icon"><i class="fas fa-hotel"></i></div><div class="svc-lbl">Hotels</div></div>
-        <div class="svc-item" onclick="showFeat('fa-shield-alt','Insurance','Life, travel and asset insurance products tailored for Netadol clients.')"><div class="svc-icon"><i class="fas fa-shield-alt"></i></div><div class="svc-lbl">Insurance</div></div>
-        <div class="svc-item" onclick="showFeat('fa-car','Car Hire','Rent premium vehicles in 100+ countries. Coming to the app soon.')"><div class="svc-icon"><i class="fas fa-car"></i></div><div class="svc-lbl">Car Hire</div></div>
-        <div class="svc-item" onclick="showFeat('fa-ship','Yacht Charter','Exclusive yacht and private boat charters for Netadol Platinum+ clients.')"><div class="svc-icon"><i class="fas fa-ship"></i></div><div class="svc-lbl">Yacht</div></div>
-        <div class="svc-item" onclick="showFeat('fa-utensils','Dining','Reserve tables at top restaurants and exclusive chef experiences.')"><div class="svc-icon"><i class="fas fa-utensils"></i></div><div class="svc-lbl">Dining</div></div>
-        <div class="svc-item" onclick="showFeat('fa-shopping-bag','Shopping','Curated shopping partners and cashback deals. Stay tuned.')"><div class="svc-icon"><i class="fas fa-shopping-bag"></i></div><div class="svc-lbl">Shopping</div></div>
-        <div class="svc-item" onclick="showFeat('fa-concierge-bell','Concierge','24/7 personal concierge. Contact support to request the service.')"><div class="svc-icon"><i class="fas fa-concierge-bell"></i></div><div class="svc-lbl">Concierge</div></div>
-      </div>
-
-      <div class="promo-banner" onclick="showFeat('fa-gift','Grow Your Savings','Lock funds in fixed vault deposits and earn up to 12% annual yield. Contact support@netadolb.info@gmail.com to open a plan.')">
-        <div class="promo-icon"><i class="fas fa-gift"></i></div>
-        <div class="promo-text"><h4>Grow Your Savings</h4><p>Up to 12% annual yield on fixed vault deposits</p></div>
-        <i class="fas fa-chevron-right promo-arrow"></i>
-      </div>
-
-      <!-- Live Markets -->
-      <div class="section-head"><i class="fas fa-chart-bar"></i> Live Markets <div class="line"></div></div>
-      <div class="market-row">
-        <div class="m-card"><div class="m-name">BITCOIN</div><div class="m-price">$102,432</div><div class="m-chg up">▲ +3.1%</div></div>
-        <div class="m-card"><div class="m-name">ETHEREUM</div><div class="m-price">$4,812</div><div class="m-chg up">▲ +2.4%</div></div>
-        <div class="m-card"><div class="m-name">GOLD/OZ</div><div class="m-price">$2,442</div><div class="m-chg up">▲ +1.2%</div></div>
-        <div class="m-card"><div class="m-name">EUR/USD</div><div class="m-price">1.0842</div><div class="m-chg down">▼ -0.3%</div></div>
-      </div>
-
-      <!-- Recent Activity -->
-      <div class="section-head"><i class="fas fa-history"></i> Recent Activity <div class="line"></div></div>
-      <div class="tx-list" id="txList">
-        <div style="text-align:center;padding:30px;color:#64748b;font-size:13px;">
-          <i class="fas fa-inbox" style="font-size:28px;display:block;margin-bottom:8px;opacity:0.4;"></i>
-          No transactions yet
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CARD TAB -->
-  <div id="tab-card" style="display:none;">
-    <div class="page-top" style="position:static;">
-      <span class="page-title" style="margin:0 auto;">My Card</span>
-    </div>
-    <div class="tf-body">
-      <div class="card-visual">
-        <div class="chip"></div>
-        <div class="bank-name">Netadol Bank</div>
-        <div class="c-num" id="cardNum">•••• •••• •••• ••••</div>
-        <div class="c-bot">
-          <div><div class="c-label">CARD HOLDER</div><div class="c-val" id="cardHolder">—</div></div>
-          <div><div class="c-label">EXPIRES</div><div class="c-val">12/29</div></div>
-          <div class="c-logo">VISA</div>
-        </div>
-      </div>
-      <div class="info-card" style="margin-top:20px;">
-        <div class="info-row"><span class="lbl">Card Status</span><span class="val" style="color:var(--success);">Active</span></div>
-        <div class="info-row"><span class="lbl">Card Type</span><span class="val">Debit • Virtual</span></div>
-        <div class="info-row"><span class="lbl">Linked Account</span><span class="val" id="cardAcc">—</span></div>
-        <div class="info-row"><span class="lbl">Daily Limit</span><span class="val">$10,000</span></div>
-      </div>
-      <button class="tf-submit" style="margin-top:16px;" onclick="toast('Physical card request sent to support')">Request Physical Card</button>
-    </div>
-  </div>
-
-  <!-- FINANCE TAB - premium cards matching screenshot style -->
-  <div id="tab-finance" style="display:none;">
-    <div class="page-top" style="position:static;background:#0f1c2e;">
-      <span class="page-title" style="margin:0 auto;color:#e2e8f0;">Finance Overview</span>
-    </div>
-    <div class="tf-body" style="padding:16px 14px 100px;background:#0a1525;">
-      <!-- Top two big cards -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-        <div class="fin-card" style="background:linear-gradient(135deg,#14253f 0%,#0f1c30 100%);border:1px solid rgba(201,168,76,0.15);border-radius:16px;padding:18px 16px;position:relative;overflow:hidden;">
-          <div style="position:absolute;inset:0;background:url('data:image/svg+xml,%3Csvg width=\"120\" height=\"80\" viewBox=\"0 0 120 80\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M0 40 Q30 20 60 40 T120 40\" fill=\"none\" stroke=\"%23c9a84c\" stroke-width=\"0.6\" opacity=\"0.15\"/%3E%3Cpath d=\"M0 50 Q30 30 60 50 T120 50\" fill=\"none\" stroke=\"%23c9a84c\" stroke-width=\"0.5\" opacity=\"0.1\"/%3E%3C/svg%3E') repeat;opacity:0.7;"></div>
-          <div style="font-size:11px;color:#94a3b8;font-weight:600;margin-bottom:8px;position:relative;">Account Number</div>
-          <div style="font-size:15px;font-weight:800;color:#fff;font-family:'JetBrains Mono',monospace;letter-spacing:0.5px;position:relative;" id="finAccNum">—</div>
-        </div>
-        <div class="fin-card" style="background:linear-gradient(135deg,#14253f 0%,#0f1c30 100%);border:1px solid rgba(201,168,76,0.15);border-radius:16px;padding:18px 16px;position:relative;overflow:hidden;">
-          <div style="position:absolute;inset:0;background:url('data:image/svg+xml,%3Csvg width=\"120\" height=\"80\" viewBox=\"0 0 120 80\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M0 40 Q30 20 60 40 T120 40\" fill=\"none\" stroke=\"%23c9a84c\" stroke-width=\"0.6\" opacity=\"0.15\"/%3E%3Cpath d=\"M0 50 Q30 30 60 50 T120 50\" fill=\"none\" stroke=\"%23c9a84c\" stroke-width=\"0.5\" opacity=\"0.1\"/%3E%3C/svg%3E') repeat;opacity:0.7;"></div>
-          <div style="font-size:11px;color:#94a3b8;font-weight:600;margin-bottom:8px;position:relative;">Available Balance</div>
-          <div style="font-size:18px;font-weight:800;color:#fff;position:relative;" id="finBal">$0.00</div>
-        </div>
-      </div>
-      <!-- Middle row: Pending -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
-        <div class="fin-mini" style="background:linear-gradient(135deg,#14253f,#0f1c30);border:1px solid rgba(0,166,247,0.12);border-radius:14px;padding:14px 12px;text-align:center;">
-          <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px;" id="finPendDep">$0.00</div>
-          <div style="font-size:10px;color:#94a3b8;font-weight:600;">Pending Deposits</div>
-          <div style="margin-top:8px;color:var(--primary);font-size:14px;"><i class="fas fa-wallet"></i></div>
-        </div>
-        <div class="fin-mini" style="background:linear-gradient(135deg,#14253f,#0f1c30);border:1px solid rgba(0,166,247,0.12);border-radius:14px;padding:14px 12px;text-align:center;">
-          <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px;" id="finPendWd">$0.00</div>
-          <div style="font-size:10px;color:#94a3b8;font-weight:600;">Pending Withdrawals</div>
-          <div style="margin-top:8px;color:var(--primary);font-size:14px;"><i class="fas fa-money-check-alt"></i></div>
-        </div>
-        <div class="fin-mini" style="background:linear-gradient(135deg,#14253f,#0f1c30);border:1px solid rgba(0,166,247,0.12);border-radius:14px;padding:14px 12px;text-align:center;">
-          <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px;" id="finToday">0</div>
-          <div style="font-size:10px;color:#94a3b8;font-weight:600;">Today Transactions</div>
-          <div style="margin-top:8px;color:var(--primary);font-size:14px;"><i class="fas fa-exchange-alt"></i></div>
-        </div>
-      </div>
-      <!-- Bottom row: FDR / DPS / Loan -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;">
-        <div class="fin-mini" style="background:linear-gradient(135deg,#14253f,#0f1c30);border:1px solid rgba(0,166,247,0.12);border-radius:14px;padding:14px 12px;text-align:center;">
-          <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;">0</div>
-          <div style="font-size:10px;color:#94a3b8;font-weight:600;">Running FDR</div>
-          <div style="margin-top:8px;color:var(--gold);font-size:14px;"><i class="fas fa-file-invoice-dollar"></i></div>
-        </div>
-        <div class="fin-mini" style="background:linear-gradient(135deg,#14253f,#0f1c30);border:1px solid rgba(0,166,247,0.12);border-radius:14px;padding:14px 12px;text-align:center;">
-          <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;">0</div>
-          <div style="font-size:10px;color:#94a3b8;font-weight:600;">Running DPS</div>
-          <div style="margin-top:8px;color:var(--gold);font-size:14px;"><i class="fas fa-box"></i></div>
-        </div>
-        <div class="fin-mini" style="background:linear-gradient(135deg,#14253f,#0f1c30);border:1px solid rgba(0,166,247,0.12);border-radius:14px;padding:14px 12px;text-align:center;">
-          <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;">0</div>
-          <div style="font-size:10px;color:#94a3b8;font-weight:600;">Running Loan</div>
-          <div style="margin-top:8px;color:var(--gold);font-size:14px;"><i class="fas fa-hand-holding-usd"></i></div>
-        </div>
-      </div>
-      <!-- Quick actions -->
-      <div class="section-head" style="margin-top:8px;"><i class="fas fa-bolt"></i> Quick Actions <div class="line"></div></div>
-      <div class="svc-grid">
-        <div class="svc-item" onclick="openTransfer()"><div class="svc-icon"><i class="fas fa-paper-plane"></i></div><div class="svc-lbl">Transfer</div></div>
-        <div class="svc-item" onclick="openWithdraw()"><div class="svc-icon"><i class="fas fa-arrow-down"></i></div><div class="svc-lbl">Withdraw</div></div>
-        <div class="svc-item" onclick="openDeposit()"><div class="svc-icon"><i class="fas fa-plus-circle"></i></div><div class="svc-lbl">Deposit</div></div>
-        <div class="svc-item" onclick="openHistory()"><div class="svc-icon"><i class="fas fa-history"></i></div><div class="svc-lbl">History</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- REWARDS TAB -->
-  <div id="tab-rewards" style="display:none;">
-    <div class="page-top" style="position:static;background:#0f1c2e;">
-      <span class="page-title" style="margin:0 auto;color:#e2e8f0;">Rewards</span>
-    </div>
-    <div class="tf-body" style="text-align:center;padding-top:36px;background:#0a1525;min-height:70vh;">
-      <div style="width:72px;height:72px;margin:0 auto 16px;border-radius:20px;background:linear-gradient(145deg,#1a2d4a,#0f1c30);border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--gold);"><i class="fas fa-gift"></i></div>
-      <h3 style="color:#e2e8f0;margin-bottom:8px;font-size:18px;">Loyalty Points</h3>
-      <div style="font-size:40px;font-weight:800;color:var(--gold);margin-bottom:8px;" id="rewardPts">0</div>
-      <p style="color:#64748b;font-size:13px;margin-bottom:28px;max-width:260px;margin-left:auto;margin-right:auto;">Earn points on every successful transfer and deposit</p>
-      <div class="info-card" style="text-align:left;margin:0 14px;">
-        <div class="info-row"><span class="lbl">This Month</span><span class="val">0 pts</span></div>
-        <div class="info-row"><span class="lbl">Lifetime Redemptions</span><span class="val">0</span></div>
-        <div class="info-row"><span class="lbl">Current Tier</span><span class="val" style="color:var(--gold);">Silver</span></div>
-        <div class="info-row"><span class="lbl">Next Tier</span><span class="val">Gold · 500 pts</span></div>
-      </div>
-      <button class="tf-submit" style="margin:20px 14px 0;max-width:calc(100% - 28px);background:var(--gold);color:#0a1525;" onclick="toast('Redeem options coming soon — contact support')">Redeem Points</button>
-    </div>
-  </div>
-
-  <!-- ME TAB - full profile style (single account) -->
-  <div id="tab-me" style="display:none;padding-bottom:90px;">
-    <div class="me-header">
-      <div class="me-avatar" id="meAvatar">U</div>
-      <div class="me-name" id="meName">—</div>
-      <div class="me-email" id="meEmail">—</div>
-      <div style="margin-top:10px;display:inline-block;background:rgba(201,168,76,0.15);color:var(--gold);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:0.5px;" id="meTier">SILVER TIER CLIENT</div>
-    </div>
-
-    <!-- Stats row -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:0 14px;margin-bottom:18px;">
-      <div style="background:var(--navy-card);border-radius:14px;padding:14px 8px;text-align:center;border:1px solid rgba(201,168,76,0.12);">
-        <div style="font-size:20px;font-weight:800;color:var(--gold);" id="mePts">0</div>
-        <div style="font-size:10px;color:#64748b;font-weight:600;margin-top:2px;">POINTS</div>
-      </div>
-      <div style="background:var(--navy-card);border-radius:14px;padding:14px 8px;text-align:center;border:1px solid rgba(0,166,247,0.12);">
-        <div style="font-size:20px;font-weight:800;color:#fff;" id="meTxCount">0</div>
-        <div style="font-size:10px;color:#64748b;font-weight:600;margin-top:2px;">TRANSACTIONS</div>
-      </div>
-      <div style="background:var(--navy-card);border-radius:14px;padding:14px 8px;text-align:center;border:1px solid rgba(0,166,247,0.12);">
-        <div style="font-size:20px;font-weight:800;color:#fff;" id="meRating">AAA</div>
-        <div style="font-size:10px;color:#64748b;font-weight:600;margin-top:2px;">RATING</div>
-      </div>
-    </div>
-
-    <!-- Personal Information -->
-    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-user"></i> Personal Information <div class="line"></div></div>
-    <div class="info-card">
-      <div class="info-row"><span class="lbl">Full Name</span><span class="val" id="meFull">—</span></div>
-      <div class="info-row"><span class="lbl">Email Address</span><span class="val" id="meEmail2">—</span></div>
-      <div class="info-row"><span class="lbl">Phone Number</span><span class="val" id="mePhone">—</span></div>
-      <div class="info-row"><span class="lbl">Country of Residence</span><span class="val" id="meCountry">—</span></div>
-      <div class="info-row"><span class="lbl">Member Since</span><span class="val" id="meSince">—</span></div>
-    </div>
-
-    <!-- Vault Identity -->
-    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-fingerprint"></i> Vault Identity <div class="line"></div></div>
-    <div class="info-card">
-      <div class="info-row"><span class="lbl">Netadol Vault ID</span><span class="val" id="meId">—</span></div>
-      <div class="info-row"><span class="lbl">Registered Country</span><span class="val" id="meCountry2">—</span></div>
-      <div class="info-row"><span class="lbl">Client Tier</span><span class="val" style="color:var(--gold);">Silver (Upgrade available)</span></div>
-      <div class="info-row"><span class="lbl">KYC Status</span><span class="val" style="color:var(--success);">Identity Verified ✓</span></div>
-    </div>
-
-    <!-- Primary Account (single) -->
-    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-university"></i> Primary Account <div class="line"></div></div>
-    <div class="info-card">
-      <div class="info-row"><span class="lbl">Account Name</span><span class="val" id="meAccName">—</span></div>
-      <div class="info-row"><span class="lbl">Account Number</span><span class="val" style="display:flex;align-items:center;gap:8px;"><span id="meAcc">—</span> <i class="fas fa-copy" style="color:var(--primary);cursor:pointer;font-size:12px;" onclick="copyText('meAcc')"></i></span></div>
-      <div class="info-row"><span class="lbl">Currency</span><span class="val" id="meCurr">—</span></div>
-      <div class="info-row"><span class="lbl">IBAN</span><span class="val" style="display:flex;align-items:center;gap:8px;"><span id="meIban">—</span> <i class="fas fa-copy" style="color:var(--primary);cursor:pointer;font-size:12px;" onclick="copyText('meIban')"></i></span></div>
-      <div class="info-row"><span class="lbl">SWIFT / BIC</span><span class="val" style="display:flex;align-items:center;gap:8px;"><span id="meSwift">NTADUSZZ</span> <i class="fas fa-copy" style="color:var(--primary);cursor:pointer;font-size:12px;" onclick="copyText('meSwift')"></i></span></div>
-      <div class="info-row"><span class="lbl">Bank Name</span><span class="val">Netadol Bank</span></div>
-      <div class="info-row"><span class="lbl">Bank Address</span><span class="val" style="font-size:11px;">Utah, United States of America</span></div>
-    </div>
-
-    <!-- Security -->
-    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-shield-alt"></i> Security <div class="line"></div></div>
-    <div class="info-card">
-      <div class="info-row" style="cursor:pointer;" onclick="toast('Password change available via support')"><span class="lbl"><i class="fas fa-key" style="margin-right:8px;color:var(--primary);"></i>Change Password</span><span class="val" style="color:#64748b;"><i class="fas fa-chevron-right"></i></span></div>
-      <div class="info-row" style="cursor:pointer;" onclick="toast('2FA setup coming soon')"><span class="lbl"><i class="fas fa-mobile-alt" style="margin-right:8px;color:var(--primary);"></i>Two-Factor Authentication</span><span class="val" style="color:#64748b;"><i class="fas fa-chevron-right"></i></span></div>
-      <div class="info-row" style="cursor:pointer;" onclick="toast('Biometric login available on supported devices')"><span class="lbl"><i class="fas fa-fingerprint" style="margin-right:8px;color:var(--primary);"></i>Biometric Login</span><span class="val" style="color:#64748b;"><i class="fas fa-chevron-right"></i></span></div>
-    </div>
-
-    <!-- Settings -->
-    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-cog"></i> Settings & Preferences <div class="line"></div></div>
-    <div class="info-card">
-      <div class="info-row" style="cursor:pointer;" onclick="toast('Notification preferences updated')"><span class="lbl"><i class="fas fa-bell" style="margin-right:8px;color:var(--primary);"></i>Notification Preferences</span><span class="val" style="color:#64748b;"><i class="fas fa-chevron-right"></i></span></div>
-      <div class="info-row"><span class="lbl"><i class="fas fa-globe" style="margin-right:8px;color:var(--primary);"></i>Language & Region</span><span class="val">English</span></div>
-      <div class="info-row"><span class="lbl"><i class="fas fa-coins" style="margin-right:8px;color:var(--primary);"></i>Currency Display</span><span class="val" id="meCurrDisp">Primary</span></div>
-    </div>
-
-    <!-- Support -->
-    <div class="section-head" style="padding:0 14px;margin:8px 0 10px;"><i class="fas fa-headset"></i> Support & Help <div class="line"></div></div>
-    <div class="info-card">
-      <div class="info-row" style="cursor:pointer;" onclick="toast('Connecting to live chat...')"><span class="lbl"><i class="fas fa-comment-dots" style="margin-right:8px;color:var(--primary);"></i>Live Chat Support</span><span class="val" style="color:#64748b;font-size:11px;">~2 min</span></div>
-      <div class="info-row" style="cursor:pointer;" onclick="window.location.href='mailto:netadolb.info@gmail.com'"><span class="lbl"><i class="fas fa-envelope" style="margin-right:8px;color:var(--primary);"></i>Email Support</span><span class="val" style="color:#64748b;font-size:11px;">netadolb.info@gmail.com</span></div>
-      <div class="info-row" style="cursor:pointer;" onclick="toast('Help centre articles coming soon')"><span class="lbl"><i class="fas fa-book" style="margin-right:8px;color:var(--primary);"></i>Help Centre</span><span class="val" style="color:#64748b;"><i class="fas fa-chevron-right"></i></span></div>
-    </div>
-
-    <div style="padding:8px 14px 30px;">
-      <button class="tf-submit" style="background:var(--error);margin-top:4px;" onclick="doSignOut()"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
-    </div>
-  </div>
-
-  <!-- Bottom Nav -->
-  <div class="bottom-nav">
-    <button class="nav-item active" id="nav-home" onclick="switchTab('home')"><i class="fas fa-home"></i><span>Home</span></button>
-    <button class="nav-item" id="nav-card" onclick="switchTab('card')"><i class="fas fa-credit-card"></i><span>Card</span></button>
-    <button class="nav-item" id="nav-finance" onclick="switchTab('finance')"><i class="fas fa-chart-bar"></i><span>Finance</span></button>
-    <button class="nav-item" id="nav-rewards" onclick="switchTab('rewards')"><i class="fas fa-gift"></i><span>Rewards</span></button>
-    <button class="nav-item" id="nav-me" onclick="switchTab('me')"><i class="fas fa-user"></i><span>Me</span></button>
-  </div>
-</div>
-
-<!-- TRANSFER PAGE -->
-<div class="page-view" id="transferPage">
-  <div class="page-top">
-    <button class="page-back" onclick="closePage('transferPage')"><i class="fas fa-arrow-left"></i></button>
-    <span class="page-title">Transfer Money</span>
-  </div>
-  <div class="tf-body">
-    <div class="tf-disabled" id="tfDisabled"><i class="fas fa-ban" style="margin-right:6px;"></i> Transfer is currently disabled on your account. You cannot send money right now. Kindly contact customer service (netadolb.info@gmail.com). No funds will be deducted.</div>
-    <div class="tf-label">Recipient Name</div>
-    <input class="tf-input" id="tfName" placeholder="Full name of recipient">
-    <div class="tf-label">Account Number</div>
-    <input class="tf-input" id="tfAcc" placeholder="Recipient account number">
-    <div class="tf-label">Bank Name (optional)</div>
-    <input class="tf-input" id="tfBank" placeholder="e.g. Netadol Bank">
-    <div class="tf-label">Amount</div>
-    <input class="tf-input" type="number" id="tfAmount" placeholder="0.00">
-    <div class="tf-label">Transaction PIN</div>
-    <input class="tf-input" type="password" id="tfPin" maxlength="4" placeholder="••••" style="letter-spacing:6px;text-align:center;">
-    <div class="tf-label">Note (optional)</div>
-    <input class="tf-input" id="tfNote" placeholder="Payment for...">
-    <button class="tf-submit" id="tfSubmit" onclick="doTransfer()">Confirm Transfer</button>
-  </div>
-</div>
-
-<!-- WITHDRAW PAGE -->
-<div class="page-view" id="withdrawPage">
-  <div class="page-top">
-    <button class="page-back" onclick="closePage('withdrawPage')"><i class="fas fa-arrow-left"></i></button>
-    <span class="page-title">Withdraw Funds</span>
-  </div>
-  <div class="tf-body">
-    <div class="tf-label">Amount</div>
-    <input class="tf-input" type="number" id="wdAmount" placeholder="0.00">
-    <div class="tf-label">Withdrawal Method</div>
-    <select class="tf-select" id="wdMethod"><option>Bank Transfer</option><option>PayPal</option><option>Crypto</option></select>
-    <div class="tf-label">Account / Wallet Details</div>
-    <input class="tf-input" id="wdDetails" placeholder="Account number or wallet address">
-    <div class="tf-label">Transaction PIN</div>
-    <input class="tf-input" type="password" id="wdPin" maxlength="4" placeholder="••••" style="letter-spacing:6px;text-align:center;">
-    <button class="tf-submit" onclick="doWithdraw()">Request Withdrawal</button>
-  </div>
-</div>
-
-<!-- DEPOSIT PAGE -->
-<div class="page-view" id="depositPage">
-  <div class="page-top">
-    <button class="page-back" onclick="closePage('depositPage')"><i class="fas fa-arrow-left"></i></button>
-    <span class="page-title">Deposit Funds</span>
-  </div>
-  <div class="tf-body">
-    <div style="background:var(--navy-card);border-radius:16px;padding:20px;margin-bottom:20px;border:1px solid rgba(0,166,247,0.15);">
-      <div style="font-size:11px;font-weight:700;color:var(--primary);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px;">Wire / Transfer Details</div>
-      <div class="receipt-row"><span class="lbl">Account Name</span><span class="val" id="depName">—</span></div>
-      <div class="receipt-row"><span class="lbl">Account Number</span><span class="val" id="depAcc">—</span></div>
-      <div class="receipt-row"><span class="lbl">Bank</span><span class="val">Netadol Bank</span></div>
-      <div class="receipt-row"><span class="lbl">Currency</span><span class="val" id="depCurr">—</span></div>
-      <div class="receipt-row"><span class="lbl">Support</span><span class="val">netadolb.info@gmail.com</span></div>
-    </div>
-    <p style="font-size:13px;color:#64748b;text-align:center;line-height:1.6;margin-bottom:20px;">Funds typically arrive in 1-3 business days. Contact support after sending for faster credit.</p>
-    <button class="tf-submit" onclick="closePage('depositPage')">Got it</button>
-  </div>
-</div>
-
-<!-- HISTORY PAGE -->
-<div class="page-view" id="historyPage">
-  <div class="page-top">
-    <button class="page-back" onclick="closePage('historyPage')"><i class="fas fa-arrow-left"></i></button>
-    <span class="page-title">Transaction History</span>
-  </div>
-  <div class="tf-body"><div class="tx-list" id="fullTxList"></div></div>
-</div>
-
-<!-- RECEIPT MODAL -->
-<div class="modal" id="receiptMod">
-  <div class="modal-box">
-    <button class="modal-close" onclick="document.getElementById('receiptMod').classList.remove('show')"><i class="fas fa-times"></i></button>
-    <div class="receipt-ok" id="receiptBox">
-      <div class="icon" id="rcIcon"><i class="fas fa-check"></i></div>
-      <h3 id="rcTitle">Transfer Successful</h3>
-      <p style="font-size:13px;color:#64748b;margin-bottom:16px;" id="rcSub">Your funds have been sent</p>
-      <div style="font-size:28px;font-weight:800;color:#fff;margin-bottom:20px;" id="rcAmt">$0.00</div>
-      <div class="receipt-row"><span class="lbl">Date</span><span class="val" id="rcDate">—</span></div>
-      <div class="receipt-row"><span class="lbl">Recipient</span><span class="val" id="rcTo">—</span></div>
-      <div class="receipt-row"><span class="lbl">Account</span><span class="val" id="rcAcc">—</span></div>
-      <div class="receipt-row"><span class="lbl">Status</span><span class="val" id="rcStatus" style="color:var(--success);">SUCCESS</span></div>
-      <div class="receipt-row"><span class="lbl">Ref</span><span class="val" id="rcRef">—</span></div>
-    </div>
-    <button class="tf-submit" style="margin-top:12px;background:var(--gold);color:#0a1525;" onclick="downloadReceipt()"><i class="fas fa-download"></i> Download Receipt</button>
-    <button class="tf-submit" style="margin-top:10px;background:transparent;border:1.5px solid rgba(255,255,255,0.2);" onclick="document.getElementById('receiptMod').classList.remove('show')">Close</button>
-  </div>
-</div>
-
-<!-- NOTIFICATION PANEL -->
-<div class="notif-panel" id="notifPanel">
-  <div class="notif-head">
-    <h3><i class="fas fa-bell" style="color:var(--gold);margin-right:8px;"></i>Notifications</h3>
-    <button onclick="closeNotif()" style="background:none;border:none;color:#94a3b8;font-size:18px;cursor:pointer;"><i class="fas fa-times"></i></button>
-  </div>
-  <div class="notif-list" id="notifList">
-    <div class="notif-empty"><i class="fas fa-inbox" style="font-size:32px;display:block;margin-bottom:10px;opacity:0.4;"></i>No notifications yet</div>
-  </div>
-</div>
-
-<!-- FEATURE / COMING SOON MODAL (styled) -->
-<div class="modal feat-modal" id="featMod">
-  <div class="modal-box">
-    <button class="modal-close" onclick="document.getElementById('featMod').classList.remove('show')"><i class="fas fa-times"></i></button>
-    <div class="feat-icon" id="featIcon"><i class="fas fa-rocket"></i></div>
-    <h3 id="featTitle">Coming Soon</h3>
-    <p id="featDesc">This feature is currently under development. Stay tuned for updates or contact support for early access.</p>
-    <button class="tf-submit" onclick="document.getElementById('featMod').classList.remove('show')">Got it</button>
-  </div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getDatabase, ref, set, push, onValue, get, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCQhA4SDGwX1AJ74Knc5cKYRSV9-5jq7TA",
-  authDomain: "nitadol-bank-cd0c0.firebaseapp.com",
-  databaseURL: "https://nitadol-bank-cd0c0-default-rtdb.firebaseio.com",
-  projectId: "nitadol-bank-cd0c0",
-  storageBucket: "nitadol-bank-cd0c0.firebasestorage.app",
-  messagingSenderId: "889479288915",
-  appId: "1:889479288915:web:eba1686f9468a427344ea6"
-};
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app);
-
-const COUNTRIES = [
-  {code:"US",name:"United States",flag:"🇺🇸",curr:"USD",sym:"$"},
-  {code:"GB",name:"United Kingdom",flag:"🇬🇧",curr:"GBP",sym:"£"},
-  {code:"DE",name:"Germany",flag:"🇩🇪",curr:"EUR",sym:"€"},
-  {code:"FR",name:"France",flag:"🇫🇷",curr:"EUR",sym:"€"},
-  {code:"IT",name:"Italy",flag:"🇮🇹",curr:"EUR",sym:"€"},
-  {code:"ES",name:"Spain",flag:"🇪🇸",curr:"EUR",sym:"€"},
-  {code:"NL",name:"Netherlands",flag:"🇳🇱",curr:"EUR",sym:"€"},
-  {code:"IE",name:"Ireland",flag:"🇮🇪",curr:"EUR",sym:"€"},
-  {code:"PT",name:"Portugal",flag:"🇵🇹",curr:"EUR",sym:"€"},
-  {code:"BE",name:"Belgium",flag:"🇧🇪",curr:"EUR",sym:"€"},
-  {code:"AT",name:"Austria",flag:"🇦🇹",curr:"EUR",sym:"€"},
-  {code:"CH",name:"Switzerland",flag:"🇨🇭",curr:"CHF",sym:"Fr"},
-  {code:"CA",name:"Canada",flag:"🇨🇦",curr:"CAD",sym:"C$"},
-  {code:"AU",name:"Australia",flag:"🇦🇺",curr:"AUD",sym:"A$"},
-  {code:"NG",name:"Nigeria",flag:"🇳🇬",curr:"NGN",sym:"₦"},
-  {code:"GH",name:"Ghana",flag:"🇬🇭",curr:"GHS",sym:"₵"},
-  {code:"ZA",name:"South Africa",flag:"🇿🇦",curr:"ZAR",sym:"R"},
-  {code:"KE",name:"Kenya",flag:"🇰🇪",curr:"KES",sym:"KSh"},
-  {code:"IN",name:"India",flag:"🇮🇳",curr:"INR",sym:"₹"},
-  {code:"PK",name:"Pakistan",flag:"🇵🇰",curr:"PKR",sym:"₨"},
-  {code:"BD",name:"Bangladesh",flag:"🇧🇩",curr:"BDT",sym:"৳"},
-  {code:"CN",name:"China",flag:"🇨🇳",curr:"CNY",sym:"¥"},
-  {code:"JP",name:"Japan",flag:"🇯🇵",curr:"JPY",sym:"¥"},
-  {code:"KR",name:"South Korea",flag:"🇰🇷",curr:"KRW",sym:"₩"},
-  {code:"SG",name:"Singapore",flag:"🇸🇬",curr:"SGD",sym:"S$"},
-  {code:"MY",name:"Malaysia",flag:"🇲🇾",curr:"MYR",sym:"RM"},
-  {code:"AE",name:"United Arab Emirates",flag:"🇦🇪",curr:"AED",sym:"د.إ"},
-  {code:"SA",name:"Saudi Arabia",flag:"🇸🇦",curr:"SAR",sym:"﷼"},
-  {code:"BR",name:"Brazil",flag:"🇧🇷",curr:"BRL",sym:"R$"},
-  {code:"MX",name:"Mexico",flag:"🇲🇽",curr:"MXN",sym:"MX$"},
-  {code:"PH",name:"Philippines",flag:"🇵🇭",curr:"PHP",sym:"₱"},
-  {code:"TH",name:"Thailand",flag:"🇹🇭",curr:"THB",sym:"฿"},
-  {code:"VN",name:"Vietnam",flag:"🇻🇳",curr:"VND",sym:"₫"},
-  {code:"ID",name:"Indonesia",flag:"🇮🇩",curr:"IDR",sym:"Rp"},
-  {code:"TR",name:"Turkey",flag:"🇹🇷",curr:"TRY",sym:"₺"},
-  {code:"RU",name:"Russia",flag:"🇷🇺",curr:"RUB",sym:"₽"},
-  {code:"PL",name:"Poland",flag:"🇵🇱",curr:"PLN",sym:"zł"},
-  {code:"SE",name:"Sweden",flag:"🇸🇪",curr:"SEK",sym:"kr"},
-  {code:"NO",name:"Norway",flag:"🇳🇴",curr:"NOK",sym:"kr"},
-  {code:"DK",name:"Denmark",flag:"🇩🇰",curr:"DKK",sym:"kr"},
-  {code:"NZ",name:"New Zealand",flag:"🇳🇿",curr:"NZD",sym:"NZ$"},
-  {code:"EG",name:"Egypt",flag:"🇪🇬",curr:"EGP",sym:"E£"},
-];
-
-let U = null, UID = null, visible = true;
-
-function spin(t='Processing...'){ document.getElementById('spinText').innerText=t; document.getElementById('spinOverlay').classList.add('show'); }
-function unspin(){ document.getElementById('spinOverlay').classList.remove('show'); }
-window.toast = (msg) => { const t=document.getElementById('toast'); t.innerText=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); };
-function rand(n){ let s=''; for(let i=0;i<n;i++) s+=Math.floor(Math.random()*10); return s; }
-function genAcc(){ return 'ND'+rand(10); }
-function genTxId(){ return 'NTX-'+rand(8).toUpperCase(); }
-function maskAcc(n){ if(!n) return '****'; return '****'+String(n).slice(-4); }
-function fmt(n,sym){ return (sym||'$')+(Number(n)||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
-function maskCard(acc){ if(!acc) return '•••• •••• •••• ••••'; const s=String(acc).replace(/\D/g,'').padStart(16,'0').slice(-16); return s.slice(0,4)+' •••• •••• '+s.slice(-4); }
-
-// Country
-function buildCountries(filter=''){
-  const list=document.getElementById('countryList'); if(!list) return;
-  const f=filter.toLowerCase();
-  const filtered = f ? COUNTRIES.filter(c=>c.name.toLowerCase().includes(f)||c.code.toLowerCase().includes(f)||c.curr.toLowerCase().includes(f)) : COUNTRIES;
-  list.innerHTML = filtered.map(c=>`<div class="country-opt" onclick="selectCountry('${c.code}')"><span>${c.flag}</span><span style="flex:1;">${c.name}</span><span style="opacity:0.6;font-size:11px;">${c.curr}</span></div>`).join('');
-}
-window.toggleCountry = () => { const d=document.getElementById('countryDropdown'); d.classList.toggle('open'); if(d.classList.contains('open')){ buildCountries(); setTimeout(()=>document.getElementById('countrySearch')?.focus(),50); } };
-window.filterCountries = (v) => buildCountries(v);
-window.selectCountry = (code) => {
-  const c = COUNTRIES.find(x=>x.code===code); if(!c) return;
-  document.getElementById('selFlag').innerText = c.flag;
-  document.getElementById('selCountryName').innerText = c.name;
-  document.getElementById('rCountry').value = c.name;
-  document.getElementById('rCountryFlag').value = c.flag;
-  document.getElementById('rCurrency').value = c.curr;
-  document.getElementById('rSymbol').value = c.sym;
-  document.getElementById('countryDropdown').classList.remove('open');
-};
-document.addEventListener('click', e => {
-  const w = document.querySelector('.country-wrap');
-  if(w && !w.contains(e.target)) document.getElementById('countryDropdown')?.classList.remove('open');
-});
-
-// Auth UI
-window.showAuth = (type) => {
-  document.getElementById('landing').style.display = 'none';
-  document.getElementById('loginPage').classList.toggle('show', type==='login');
-  document.getElementById('registerPage').classList.toggle('show', type==='register');
-  if(type==='register') buildCountries();
-};
-window.hideAuth = () => {
-  document.getElementById('loginPage').classList.remove('show');
-  document.getElementById('registerPage').classList.remove('show');
-  document.getElementById('landing').style.display = 'block';
-};
-window.toggleFaq = (el) => {
-  const open = el.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
-  if(!open) el.classList.add('open');
-};
-
-// Register
-window.doRegister = async () => {
-  const name = document.getElementById('rName').value.trim();
-  const email = document.getElementById('rEmail').value.trim();
-  const phone = document.getElementById('rPhone').value.trim();
-  const pass = document.getElementById('rPass').value;
-  const pass2 = document.getElementById('rPass2').value;
-  const pin = document.getElementById('rPin').value;
-  const country = document.getElementById('rCountry').value;
-  const flag = document.getElementById('rCountryFlag').value || '🌍';
-  const curr = document.getElementById('rCurrency').value || 'USD';
-  const sym = document.getElementById('rSymbol').value || '$';
-
-  if(!name) return alert('Please enter your full name');
-  if(!email || !email.includes('@')) return alert('Please enter a valid email');
-  if(!country) return alert('Please select your country');
-  if(!pass || pass.length < 6) return alert('Password must be at least 6 characters');
-  if(pass !== pass2) return alert('Passwords do not match');
-  if(!pin || pin.length !== 4 || !/^\d{4}$/.test(pin)) return alert('Please set a 4-digit transaction PIN');
-
-  spin('Creating your account...');
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email, pass);
-    const uid = cred.user.uid;
-    const accNum = genAcc();
-    const userData = {
-      fullName: name, email, phone, country, countryFlag: flag,
-      currency: curr, symbol: sym, balance: 0, accountNumber: accNum,
-      vaultPin: pin, transferEnabled: true, id: 'ND-'+rand(8),
-      createdAt: Date.now(), cardNumber: '4'+rand(15)
-    };
-    await set(ref(db, 'users/'+uid), userData);
-    unspin();
-    toast('Account created successfully!');
-  } catch(e) {
-    unspin();
-    alert('Registration failed: ' + (e.message || e.code));
-  }
-};
-
-window.doLogin = async () => {
-  const email = document.getElementById('lEmail').value.trim();
-  const pass = document.getElementById('lPass').value;
-  if(!email || !pass) return alert('Please enter email and password');
-  spin('Signing in...');
-  try { await signInWithEmailAndPassword(auth, email, pass); }
-  catch(e) { unspin(); alert('Login failed. Check your email or password.'); }
-};
-
-window.doSignOut = () => {
-  if(confirm('Sign out of Netadol Bank?')) signOut(auth).then(() => location.reload());
-};
-
-// Auth state
-onAuthStateChanged(auth, user => {
-  if(user) {
-    UID = user.uid;
-    spin('Loading your account...');
-    onValue(ref(db, 'users/'+user.uid), snap => {
-      const d = snap.val();
-      if(!d){ unspin(); return; }
-      U = d;
-      document.getElementById('landing').style.display = 'none';
-      document.getElementById('loginPage').classList.remove('show');
-      document.getElementById('registerPage').classList.remove('show');
-      document.getElementById('dash').style.display = 'block';
-      refreshDash(d);
-      loadTx();
-      unspin();
-    });
-    onValue(ref(db, 'users/'+user.uid+'/transactions'), () => loadTx());
-  } else {
-    U = null; UID = null;
-    document.getElementById('dash').style.display = 'none';
-    document.getElementById('landing').style.display = 'block';
-    unspin();
-  }
-});
-
-function refreshDash(d) {
-  const sym = d.symbol || '$';
-  const bal = visible ? fmt(d.balance, sym) : (sym+'••••••');
-  document.getElementById('balAmount').innerText = bal;
-  document.getElementById('balLabel').innerText = (d.currency || 'USD') + ' AVAILABLE BALANCE';
-  document.getElementById('balAcc').innerText = 'Account: ' + (d.accountNumber || '****');
-  document.getElementById('finBal').innerText = fmt(d.balance, sym);
-  const finAccEl = document.getElementById('finAccNum');
-  if(finAccEl) finAccEl.innerText = d.accountNumber || '—';
-
-  const hr = new Date().getHours();
-  document.getElementById('greetText').innerText = hr<12?'Good morning,':hr<18?'Good day,':'Good evening,';
-  document.getElementById('dashName').innerText = (d.fullName||'User').split(' ')[0];
-  const av = (d.fullName||'U')[0].toUpperCase();
-  document.getElementById('dashAvatar').innerText = av;
-  document.getElementById('meAvatar').innerText = av;
-
-  // Me full
-  document.getElementById('meName').innerText = d.fullName || '—';
-  document.getElementById('meEmail').innerText = d.email || '—';
-  document.getElementById('meId').innerText = d.id || '—';
-  document.getElementById('meAcc').innerText = d.accountNumber || '—';
-  document.getElementById('meFull').innerText = d.fullName || '—';
-  document.getElementById('meEmail2').innerText = d.email || '—';
-  document.getElementById('mePhone').innerText = d.phone || '—';
-  document.getElementById('meCountry').innerText = (d.countryFlag||'')+' '+(d.country||'—');
-  document.getElementById('meCountry2').innerText = (d.countryFlag||'')+' '+(d.country||'—');
-  document.getElementById('meCurr').innerText = (d.currency||'USD')+' ('+(d.symbol||'$')+')';
-  document.getElementById('meCurrDisp').innerText = (d.currency||'USD');
-  document.getElementById('meSince').innerText = d.createdAt ? new Date(d.createdAt).toLocaleDateString() : '—';
-  document.getElementById('meAccName').innerText = d.fullName || '—';
-  // Generate simple IBAN style
-  const iban = 'US' + (d.accountNumber||'0000000000').slice(-10).padStart(14,'0').replace(/(.{4})/g,'$1 ').trim();
-  document.getElementById('meIban').innerText = iban;
-  document.getElementById('meSwift').innerText = 'NTADUSZZ';
-
-  // Card
-  document.getElementById('cardNum').innerText = maskCard(d.cardNumber || d.accountNumber);
-  document.getElementById('cardHolder').innerText = (d.fullName||'').toUpperCase().substring(0,20);
-  document.getElementById('cardAcc').innerText = d.accountNumber || '—';
-
-  // Deposit
-  document.getElementById('depName').innerText = d.fullName || '—';
-  document.getElementById('depAcc').innerText = d.accountNumber || '—';
-  document.getElementById('depCurr').innerText = d.currency || 'USD';
-
-  // Transfer disable banner (button stays clickable so user sees the styled message)
-  const dis = d.transferEnabled === false || d.transferEnabled === 'false';
-  document.getElementById('tfDisabled').classList.toggle('show', dis);
-  document.getElementById('tfSubmit').disabled = false;
-}
-
-window.toggleVis = () => {
-  visible = !visible;
-  document.getElementById('eyeIcon').className = visible ? 'fas fa-eye eye' : 'fas fa-eye-slash eye';
-  if(U) refreshDash(U);
-};
-
-function loadTx() {
-  if(!UID) return;
-  get(ref(db, 'users/'+UID+'/transactions')).then(snap => {
-    const el = document.getElementById('txList');
-    const full = document.getElementById('fullTxList');
-    if(!snap.exists()) {
-      const empty = `<div style="text-align:center;padding:30px;color:#64748b;font-size:13px;"><i class="fas fa-inbox" style="font-size:28px;display:block;margin-bottom:8px;opacity:0.4;"></i>No transactions yet</div>`;
-      if(el) el.innerHTML = empty;
-      if(full) full.innerHTML = empty;
-      document.getElementById('finToday').innerText = '0';
-      return;
+<div id="root"></div>
+
+<script>
+const {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo
+} = React;
+
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycby9k_Fd7F6mCYtzwQ5dh8AsvpCXfhnvPFXxd2mnTlTVkJr54I_4kQes0785UvLqH6CP/exec";
+const HER_NAME = "Freedom Brightness";
+
+/* ============================================================
+   FLOATING BACKGROUND PARTICLES (hearts & flowers, always falling)
+   ============================================================ */
+const SYMBOLS = ["💗", "💕", "🌸", "🌷", "💖", "🌺", "❤️", "🌹"];
+function FloatingParticles({
+  count = 26
+}) {
+  const particles = useMemo(() => {
+    return Array.from({
+      length: count
+    }).map((_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      size: 14 + Math.random() * 20,
+      duration: 9 + Math.random() * 10,
+      delay: -(Math.random() * 18),
+      symbol: SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+      opacity: 0.55 + Math.random() * 0.4
+    }));
+  }, [count]);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "particle-layer",
+    "aria-hidden": "true"
+  }, particles.map(p => /*#__PURE__*/React.createElement("span", {
+    key: p.id,
+    className: "particle",
+    style: {
+      left: `${p.left}vw`,
+      fontSize: `${p.size}px`,
+      animationDuration: `${p.duration}s`,
+      animationDelay: `${p.delay}s`,
+      opacity: p.opacity
     }
-    const txs = Object.values(snap.val()).reverse().slice(0,40);
-    document.getElementById('finToday').innerText = String(txs.filter(t => (t.date||'').includes(new Date().toLocaleDateString().split('/')[0]) || true).length);
-    const html = txs.map(tx => {
-      const isOut = tx.type !== 'DEPOSIT' && tx.type !== 'CREDIT';
-      const sym = tx.currencySymbol || U?.symbol || '$';
-      const stColor = tx.status==='SUCCESS'?'var(--success)':tx.status==='PENDING'?'var(--warning)':'var(--error)';
-      return `<div class="tx-row">
-        <div class="tx-ico ${isOut?'out':'in'}"><i class="fas fa-${isOut?'arrow-up':'arrow-down'}"></i></div>
-        <div class="tx-meta"><div class="t-name">${tx.recipient||tx.type||'Transaction'}</div><div class="t-date">${tx.date||''}</div></div>
-        <div class="tx-right"><div class="t-amt">${isOut?'-':'+'}${sym}${Number(tx.amount||0).toLocaleString(undefined,{minimumFractionDigits:2})}</div><div class="t-st" style="color:${stColor};">${tx.status||''}</div></div>
-      </div>`;
-    }).join('');
-    if(el) el.innerHTML = html;
-    if(full) full.innerHTML = html;
-  });
+  }, p.symbol)));
 }
-
-// Tabs
-window.switchTab = (tab) => {
-  ['home','card','finance','rewards','me'].forEach(t => {
-    const el = document.getElementById('tab-'+t);
-    if(el) el.style.display = t===tab ? 'block' : 'none';
-    const nav = document.getElementById('nav-'+t);
-    if(nav) nav.classList.toggle('active', t===tab);
-  });
-  if(tab==='home') loadTx();
-};
-
-window.openTransfer = () => {
-  if(U) {
-    const dis = U.transferEnabled === false || U.transferEnabled === 'false';
-    document.getElementById('tfDisabled').classList.toggle('show', dis);
-  }
-  document.getElementById('transferPage').classList.add('show');
-};
-window.openWithdraw = () => document.getElementById('withdrawPage').classList.add('show');
-window.openDeposit = () => document.getElementById('depositPage').classList.add('show');
-window.openHistory = () => { document.getElementById('historyPage').classList.add('show'); loadTx(); };
-window.closePage = (id) => document.getElementById(id).classList.remove('show');
-
-// Transfer — robust: only deduct on success path; never deduct when admin disabled
-window.doTransfer = async () => {
-  if(!U || !UID) return;
-  const name = document.getElementById('tfName').value.trim();
-  const acc = document.getElementById('tfAcc').value.trim();
-  const bank = document.getElementById('tfBank').value.trim();
-  const amt = parseFloat(document.getElementById('tfAmount').value) || 0;
-  const pin = document.getElementById('tfPin').value;
-  const note = document.getElementById('tfNote').value.trim();
-  if(!name) return alert('Enter recipient name');
-  if(!acc) return alert('Enter account number');
-  if(amt <= 0) return alert('Enter a valid amount');
-  if(pin !== U.vaultPin) return alert('Incorrect transaction PIN');
-  if(amt > (U.balance||0)) return alert(`Insufficient balance. Available: ${fmt(U.balance, U.symbol)}`);
-
-  const txId = genTxId();
-  const date = new Date().toLocaleString();
-  const sym = U.symbol || '$';
-  const curr = U.currency || 'USD';
-
-  // ===== ADMIN DISABLED: no money taken, styled fail receipt =====
-  // Only block when the flag is explicitly false (missing/undefined = enabled)
-  if(U.transferEnabled === false || U.transferEnabled === 'false') {
-    try {
-      await push(ref(db, `users/${UID}/transactions`), {
-        date, recipient: name, accNum: acc, bank: bank||'—', amount: amt,
-        currency: curr, currencySymbol: sym, note, status: 'FAILED', type: 'TRANSFER', txId,
-        failReason: 'Transfer disabled by admin'
-      });
-    } catch(_) {}
-    document.getElementById('rcTitle').innerText = 'Transfer Blocked';
-    document.getElementById('rcSub').innerText = 'You are unable to make any transactions now. Kindly contact our customer service (netadolb.info@gmail.com). No funds were deducted.';
-    document.getElementById('rcAmt').innerText = fmt(amt, sym);
-    document.getElementById('rcDate').innerText = date;
-    document.getElementById('rcTo').innerText = name;
-    document.getElementById('rcAcc').innerText = acc;
-    document.getElementById('rcStatus').innerText = 'FAILED';
-    document.getElementById('rcStatus').style.color = 'var(--error)';
-    document.getElementById('rcRef').innerText = txId;
-    document.getElementById('rcIcon').innerHTML = '<i class="fas fa-ban"></i>';
-    document.getElementById('rcIcon').style.background = 'rgba(239,68,68,0.15)';
-    document.getElementById('rcIcon').style.color = 'var(--error)';
-    document.getElementById('receiptMod').classList.add('show');
-    closePage('transferPage');
-    loadNotifs();
-    return;
-  }
-
-  // ===== ENABLED: deduct + SUCCESS =====
-  spin('Processing transfer...');
-  try {
-    // 1. Deduct from sender
-    const newBal = (Number(U.balance) || 0) - amt;
-    await update(ref(db, 'users/' + UID), { balance: newBal });
-
-    // 2. Log SUCCESS transaction (this is the source of truth)
-    await push(ref(db, `users/${UID}/transactions`), {
-      date, recipient: name, accNum: acc, bank: bank||'—', amount: amt,
-      currency: curr, currencySymbol: sym, note, status: 'SUCCESS', type: 'TRANSFER', txId
+function CelebrationBurst({
+  trigger
+}) {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    if (!trigger) return;
+    const batch = Array.from({
+      length: 50
+    }).map((_, i) => {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 120 + Math.random() * 260;
+      return {
+        id: `${Date.now()}-${i}`,
+        left: 45 + Math.random() * 10,
+        top: 35 + Math.random() * 10,
+        tx: Math.cos(angle) * distance,
+        ty: Math.sin(angle) * distance - 60,
+        rot: (Math.random() > 0.5 ? 1 : -1) * (180 + Math.random() * 360),
+        size: 16 + Math.random() * 22,
+        symbol: SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+        delay: Math.random() * 0.4,
+        duration: 1.4 + Math.random() * 1.1
+      };
     });
-
-    // 3. Optional: try to credit internal account (never fail the whole transfer if this errors)
-    try {
-      // We no longer scan all users (rules usually block it). Just skip silent internal credit.
-      // Internal credit can be handled later by admin or a cloud function.
-    } catch(_) {}
-
-    unspin();
-    closePage('transferPage');
-
-    // Show SUCCESS receipt
-    document.getElementById('rcTitle').innerText = 'Transfer Successful';
-    document.getElementById('rcSub').innerText = 'Your funds have been sent successfully';
-    document.getElementById('rcAmt').innerText = fmt(amt, sym);
-    document.getElementById('rcDate').innerText = date;
-    document.getElementById('rcTo').innerText = name;
-    document.getElementById('rcAcc').innerText = acc;
-    document.getElementById('rcStatus').innerText = 'SUCCESS';
-    document.getElementById('rcStatus').style.color = 'var(--success)';
-    document.getElementById('rcRef').innerText = txId;
-    document.getElementById('rcIcon').innerHTML = '<i class="fas fa-check"></i>';
-    document.getElementById('rcIcon').style.background = 'rgba(16,185,129,0.15)';
-    document.getElementById('rcIcon').style.color = 'var(--success)';
-    document.getElementById('receiptMod').classList.add('show');
-
-    // Clear form
-    ['tfName','tfAcc','tfBank','tfAmount','tfPin','tfNote'].forEach(id => {
-      const e = document.getElementById(id); if(e) e.value = '';
-    });
-    loadNotifs();
-  } catch(e) {
-    unspin();
-    console.error('Transfer error:', e);
-    // If we somehow failed after deduct we still try to log, but mainly show error
-    try {
-      await push(ref(db, `users/${UID}/transactions`), {
-        date, recipient: name, amount: amt, currency: curr, currencySymbol: sym,
-        status: 'FAILED', type: 'TRANSFER', txId, failReason: String(e.message||e)
-      });
-    } catch(_) {}
-    // Show styled fail receipt instead of plain alert
-    document.getElementById('rcTitle').innerText = 'Transfer Failed';
-    document.getElementById('rcSub').innerText = 'Something went wrong. Please try again or contact support. If money was deducted, contact support with the reference.';
-    document.getElementById('rcAmt').innerText = fmt(amt, sym);
-    document.getElementById('rcDate').innerText = date;
-    document.getElementById('rcTo').innerText = name;
-    document.getElementById('rcAcc').innerText = acc;
-    document.getElementById('rcStatus').innerText = 'FAILED';
-    document.getElementById('rcStatus').style.color = 'var(--error)';
-    document.getElementById('rcRef').innerText = txId;
-    document.getElementById('rcIcon').innerHTML = '<i class="fas fa-times-circle"></i>';
-    document.getElementById('rcIcon').style.background = 'rgba(239,68,68,0.15)';
-    document.getElementById('rcIcon').style.color = 'var(--error)';
-    document.getElementById('receiptMod').classList.add('show');
-    loadNotifs();
-  }
-};
-
-// Withdraw
-window.doWithdraw = async () => {
-  if(!U || !UID) return;
-  const amt = parseFloat(document.getElementById('wdAmount').value) || 0;
-  const method = document.getElementById('wdMethod').value;
-  const details = document.getElementById('wdDetails').value.trim();
-  const pin = document.getElementById('wdPin').value;
-  if(amt <= 0) return alert('Enter a valid amount');
-  if(!details) return alert('Enter account/wallet details');
-  if(pin !== U.vaultPin) return alert('Incorrect PIN');
-  if(amt > (U.balance||0)) return alert('Insufficient balance');
-
-  spin('Submitting withdrawal...');
-  const txId = genTxId();
-  const date = new Date().toLocaleString();
-  try {
-    await update(ref(db, 'users/'+UID), { balance: (U.balance||0) - amt });
-    await push(ref(db, `users/${UID}/transactions`), {
-      date, recipient: method + ' Withdrawal', amount: amt, currency: U.currency,
-      currencySymbol: U.symbol, status: 'PENDING', type: 'WITHDRAW', txId, note: details
-    });
-    unspin();
-    closePage('withdrawPage');
-    document.getElementById('rcTitle').innerText = 'Withdrawal Requested';
-    document.getElementById('rcSub').innerText = 'Pending verification. Funds will be sent after review.';
-    document.getElementById('rcAmt').innerText = fmt(amt, U.symbol);
-    document.getElementById('rcDate').innerText = date;
-    document.getElementById('rcTo').innerText = method;
-    document.getElementById('rcAcc').innerText = details;
-    document.getElementById('rcStatus').innerText = 'PENDING';
-    document.getElementById('rcStatus').style.color = 'var(--warning)';
-    document.getElementById('rcRef').innerText = txId;
-    document.getElementById('receiptMod').classList.add('show');
-    ['wdAmount','wdDetails','wdPin'].forEach(id => { const e=document.getElementById(id); if(e) e.value=''; });
-  } catch(e) { unspin(); alert('Withdrawal request failed.'); }
-};
-
-// ===== HELPERS: Notif, Feature modal, Copy, Download Receipt =====
-window.showFeat = (icon, title, desc) => {
-  document.getElementById('featIcon').innerHTML = `<i class="fas ${icon}"></i>`;
-  document.getElementById('featTitle').innerText = title;
-  document.getElementById('featDesc').innerText = desc;
-  document.getElementById('featMod').classList.add('show');
-};
-
-window.openNotif = () => {
-  document.getElementById('notifPanel').classList.add('open');
-  loadNotifs();
-};
-window.closeNotif = () => document.getElementById('notifPanel').classList.remove('open');
-
-let _notifTxs = [];
-function loadNotifs() {
-  if(!UID) return;
-  get(ref(db, 'users/'+UID+'/transactions')).then(snap => {
-    const list = document.getElementById('notifList');
-    const badge = document.getElementById('notifBadge');
-    if(!snap.exists()) {
-      list.innerHTML = `<div class="notif-empty"><i class="fas fa-inbox" style="font-size:32px;display:block;margin-bottom:10px;opacity:0.4;"></i>No notifications yet</div>`;
-      badge.style.display = 'none';
-      document.getElementById('meTxCount').innerText = '0';
-      _notifTxs = [];
-      return;
+    setItems(batch);
+  }, [trigger]);
+  if (!items.length) return null;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "particle-layer",
+    style: {
+      zIndex: 6
+    },
+    "aria-hidden": "true"
+  }, items.map(p => /*#__PURE__*/React.createElement("span", {
+    key: p.id,
+    className: "burst-particle",
+    style: {
+      left: `${p.left}vw`,
+      top: `${p.top}vh`,
+      fontSize: `${p.size}px`,
+      animationDuration: `${p.duration}s`,
+      animationDelay: `${p.delay}s`,
+      "--tx": `${p.tx}px`,
+      "--ty": `${p.ty}px`,
+      "--rot": `${p.rot}deg`
     }
-    _notifTxs = Object.values(snap.val()).reverse().slice(0,50);
-    document.getElementById('meTxCount').innerText = String(_notifTxs.length);
-    badge.innerText = _notifTxs.length > 9 ? '9+' : String(_notifTxs.length);
-    badge.style.display = _notifTxs.length ? 'flex' : 'none';
-    list.innerHTML = _notifTxs.map((tx,i) => {
-      const isOut = tx.type !== 'DEPOSIT' && tx.type !== 'CREDIT';
-      const sym = tx.currencySymbol || U?.symbol || '$';
-      const stColor = tx.status==='SUCCESS'?'var(--success)':tx.status==='PENDING'?'var(--warning)':'var(--error)';
-      return `<div class="notif-item" onclick="viewReceipt(${i})">
-        <div class="n-title">${tx.recipient || tx.type || 'Transaction'}</div>
-        <div class="n-sub">${tx.date||''} · ${tx.status||''}</div>
-        <div class="n-amt" style="color:${stColor}">${isOut?'-':'+'}${sym}${Number(tx.amount||0).toLocaleString(undefined,{minimumFractionDigits:2})}</div>
-      </div>`;
-    }).join('');
-  });
+  }, p.symbol)));
 }
 
-window.viewReceipt = (idx) => {
-  const tx = _notifTxs[idx];
-  if(!tx) return;
-  closeNotif();
-  const isFail = tx.status === 'FAILED';
-  document.getElementById('rcTitle').innerText = isFail ? 'Transaction Failed' : (tx.status==='PENDING' ? 'Pending Transaction' : 'Transaction Receipt');
-  document.getElementById('rcSub').innerText = isFail ? (tx.failReason || 'This transaction could not be completed') : 'Transaction details';
-  document.getElementById('rcAmt').innerText = fmt(tx.amount, tx.currencySymbol || U?.symbol);
-  document.getElementById('rcDate').innerText = tx.date || '—';
-  document.getElementById('rcTo').innerText = tx.recipient || '—';
-  document.getElementById('rcAcc').innerText = tx.accNum || '—';
-  document.getElementById('rcStatus').innerText = tx.status || '—';
-  document.getElementById('rcStatus').style.color = isFail ? 'var(--error)' : (tx.status==='PENDING' ? 'var(--warning)' : 'var(--success)');
-  document.getElementById('rcRef').innerText = tx.txId || '—';
-  document.getElementById('rcIcon').innerHTML = isFail ? '<i class="fas fa-ban"></i>' : (tx.status==='PENDING' ? '<i class="fas fa-clock"></i>' : '<i class="fas fa-check"></i>');
-  document.getElementById('rcIcon').style.background = isFail ? 'rgba(239,68,68,0.15)' : (tx.status==='PENDING' ? 'rgba(245,158,11,0.15)' : 'rgba(16,185,129,0.15)');
-  document.getElementById('rcIcon').style.color = isFail ? 'var(--error)' : (tx.status==='PENDING' ? 'var(--warning)' : 'var(--success)');
-  document.getElementById('receiptMod').classList.add('show');
-};
+/* ============================================================
+   PROGRESS DOTS
+   ============================================================ */
+function ProgressDots({
+  step,
+  total = 5
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-center gap-2 mb-6"
+  }, Array.from({
+    length: total
+  }).map((_, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    className: "rounded-full transition-all duration-500",
+    style: {
+      width: i === step ? "22px" : "8px",
+      height: "8px",
+      background: i <= step ? "var(--rose)" : "#FBD1DE"
+    }
+  })));
+}
 
-window.copyText = (id) => {
-  const el = document.getElementById(id);
-  if(!el) return;
-  const text = el.innerText || el.value;
-  if(navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => toast('Copied to clipboard'));
-  } else {
-    toast('Copied: ' + text);
-  }
-};
+/* ============================================================
+   SCREEN 1 — THE PROPOSAL (with dodging NO button)
+   ============================================================ */
+function ProposalScreen({
+  onYes
+}) {
+  const containerRef = useRef(null);
+  const noBtnRef = useRef(null);
+  const [noStyle, setNoStyle] = useState(null); // null = normal in-flow position
+  const [dodgeCount, setDodgeCount] = useState(0);
+  const [yesScale, setYesScale] = useState(1);
+  const taunts = ["Nice try 😏", "Nope, not today 🙅‍♀️", "Catch me if you can 💨", "The YES button is right there though 👉", "Almost had it! 😂", "I'm too quick for you 🏃‍♂️💨"];
+  const [taunt, setTaunt] = useState(null);
+  const dodge = useCallback(() => {
+    const btn = noBtnRef.current;
+    const pad = 24;
+    const bw = btn ? btn.offsetWidth : 130;
+    const bh = btn ? btn.offsetHeight : 54;
+    const maxLeft = Math.max(window.innerWidth - bw - pad, pad);
+    const maxTop = Math.max(window.innerHeight - bh - pad, pad);
+    const newLeft = pad + Math.random() * (maxLeft - pad);
+    const newTop = pad + Math.random() * (maxTop - pad);
+    setNoStyle({
+      position: "fixed",
+      left: `${newLeft}px`,
+      top: `${newTop}px`,
+      zIndex: 50
+    });
+    setDodgeCount(c => c + 1);
+    setTaunt(taunts[Math.floor(Math.random() * taunts.length)]);
+    setYesScale(s => Math.min(1.35, 1 + (dodgeCount + 1) * 0.035));
+  }, [dodgeCount]);
+  return /*#__PURE__*/React.createElement("div", {
+    ref: containerRef,
+    className: "screen-enter min-h-screen w-full flex flex-col items-center justify-center px-6 py-16 text-center relative"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "pop-in text-4xl mb-3",
+    "aria-hidden": "true"
+  }, "🌸 💐 🌸"), /*#__PURE__*/React.createElement("p", {
+    className: "pop-in font-display text-lg md:text-xl text-[var(--maroon)] tracking-wide mb-2",
+    style: {
+      animationDelay: "0.05s"
+    }
+  }, "Welcome"), /*#__PURE__*/React.createElement("h1", {
+    className: "pop-in font-display italic font-bold mb-6 leading-tight",
+    style: {
+      fontSize: "clamp(2.2rem, 7vw, 4rem)",
+      background: "linear-gradient(120deg, var(--rose-deep), var(--rose), var(--gold))",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      animationDelay: "0.1s"
+    }
+  }, HER_NAME, " ✨"), /*#__PURE__*/React.createElement("h2", {
+    className: "pop-in font-display font-semibold text-[var(--maroon)] mb-10 max-w-xl",
+    style: {
+      fontSize: "clamp(1.4rem, 4.5vw, 2.3rem)",
+      animationDelay: "0.18s"
+    }
+  }, "Will you go on a date with me? 🥺"), /*#__PURE__*/React.createElement("div", {
+    className: "pop-in flex items-center gap-4 flex-wrap justify-center relative",
+    style: {
+      animationDelay: "0.28s"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onYes,
+    className: "yes-btn heart-emoji-btn text-white font-bold rounded-full px-10 py-4 text-xl md:text-2xl shadow-lg",
+    style: {
+      background: "linear-gradient(135deg, var(--rose), var(--rose-deep))",
+      transform: `scale(${yesScale})`,
+      transition: "transform 0.25s ease"
+    }
+  }, "YES 🥰"), /*#__PURE__*/React.createElement("button", {
+    ref: noBtnRef,
+    onMouseEnter: dodge,
+    onTouchStart: e => {
+      e.preventDefault();
+      dodge();
+    },
+    onClick: dodge,
+    style: {
+      ...(noStyle || {}),
+      background: "var(--white)",
+      color: "var(--maroon)",
+      border: "2px solid #FBD1DE"
+    },
+    className: "no-btn font-bold rounded-full px-8 py-4 text-lg md:text-xl shadow-md select-none"
+  }, "NO 😢")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "28px"
+    },
+    className: "mt-6"
+  }, taunt && /*#__PURE__*/React.createElement("p", {
+    key: dodgeCount,
+    className: "pop-in font-display italic text-[var(--rose-deep)] text-base md:text-lg"
+  }, taunt)), /*#__PURE__*/React.createElement("div", {
+    className: "absolute bottom-8 text-2xl opacity-70 select-none",
+    "aria-hidden": "true"
+  }, "🌷 🌸 🌹 🌸 🌷"));
+}
 
-window.downloadReceipt = () => {
-  const title = document.getElementById('rcTitle').innerText;
-  const amt = document.getElementById('rcAmt').innerText;
-  const date = document.getElementById('rcDate').innerText;
-  const to = document.getElementById('rcTo').innerText;
-  const acc = document.getElementById('rcAcc').innerText;
-  const status = document.getElementById('rcStatus').innerText;
-  const ref = document.getElementById('rcRef').innerText;
-  const content = `
-NETADOL BANK — TRANSACTION RECEIPT
-==================================
-${title}
-Amount: ${amt}
-Date: ${date}
-Recipient: ${to}
-Account: ${acc}
-Status: ${status}
-Reference: ${ref}
-==================================
-Netadol Bank · Utah, USA
-netadolb.info@gmail.com
-  `.trim();
-  const blob = new Blob([content], {type:'text/plain'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `Netadol_Receipt_${ref || Date.now()}.txt`;
-  a.click();
-  URL.revokeObjectURL(url);
-  toast('Receipt downloaded');
-};
+/* ============================================================
+   SCREEN 2 — CALENDAR + TIME PICKER
+   ============================================================ */
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const DAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
+function CalendarScreen({
+  onNext
+}) {
+  const today = new Date();
+  const [viewDate, setViewDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [hour, setHour] = useState("7");
+  const [minute, setMinute] = useState("00");
+  const [ampm, setAmpm] = useState("PM");
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth();
+  const firstWeekday = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const cells = [];
+  for (let i = 0; i < firstWeekday; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+  const isPast = d => {
+    const cellDate = new Date(year, month, d);
+    const t = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    return cellDate < t;
+  };
+  const changeMonth = delta => {
+    setSelectedDay(null);
+    setViewDate(new Date(year, month + delta, 1));
+  };
+  const canSend = selectedDay !== null;
+  const handleSend = () => {
+    const dateObj = new Date(year, month, selectedDay);
+    const dateLabel = dateObj.toLocaleDateString(undefined, {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
+    const timeLabel = `${hour}:${minute} ${ampm}`;
+    onNext({
+      dateLabel,
+      timeLabel
+    });
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "screen-enter min-h-screen w-full flex flex-col items-center justify-center px-4 py-14"
+  }, /*#__PURE__*/React.createElement(ProgressDots, {
+    step: 1
+  }), /*#__PURE__*/React.createElement("h2", {
+    className: "font-display font-bold text-[var(--maroon)] text-center mb-8",
+    style: {
+      fontSize: "clamp(1.5rem, 5vw, 2.2rem)"
+    }
+  }, "So... when are you free? 📅"), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-3xl shadow-xl p-6 md:p-8 w-full max-w-sm",
+    style: {
+      boxShadow: "0 20px 50px -20px rgba(179,24,78,0.3)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between mb-4"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => changeMonth(-1),
+    className: "w-9 h-9 rounded-full bg-[var(--pink-bg-1)] text-[var(--rose-deep)] font-bold hover:bg-[var(--pink-blush)] transition"
+  }, "‹"), /*#__PURE__*/React.createElement("p", {
+    className: "font-display font-semibold text-[var(--maroon)] text-lg"
+  }, MONTH_NAMES[month], " ", year), /*#__PURE__*/React.createElement("button", {
+    onClick: () => changeMonth(1),
+    className: "w-9 h-9 rounded-full bg-[var(--pink-bg-1)] text-[var(--rose-deep)] font-bold hover:bg-[var(--pink-blush)] transition"
+  }, "›")), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-7 gap-1 mb-1"
+  }, DAY_LABELS.map((d, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    className: "text-center text-xs font-bold text-[var(--rose)] py-1"
+  }, d))), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-7 gap-1"
+  }, cells.map((d, i) => {
+    if (d === null) return /*#__PURE__*/React.createElement("div", {
+      key: i
+    });
+    const past = isPast(d);
+    const selected = selectedDay === d;
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      disabled: past,
+      onClick: () => setSelectedDay(d),
+      className: "aspect-square rounded-full text-sm font-semibold transition-all",
+      style: {
+        background: selected ? "linear-gradient(135deg, var(--rose), var(--rose-deep))" : "transparent",
+        color: past ? "#E7C3CF" : selected ? "#fff" : "var(--maroon)",
+        cursor: past ? "not-allowed" : "pointer",
+        transform: selected ? "scale(1.08)" : "scale(1)"
+      }
+    }, d);
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "mt-6 pt-5 border-t border-[var(--pink-bg-1)]"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-sm font-bold text-[var(--rose-deep)] mb-3 text-center"
+  }, "Pick a time ⏰"), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-center gap-2"
+  }, /*#__PURE__*/React.createElement("select", {
+    value: hour,
+    onChange: e => setHour(e.target.value),
+    className: "bg-[var(--pink-bg-1)] rounded-xl px-3 py-2 font-semibold text-[var(--maroon)] outline-none"
+  }, Array.from({
+    length: 12
+  }, (_, i) => i + 1).map(h => /*#__PURE__*/React.createElement("option", {
+    key: h,
+    value: String(h)
+  }, h))), /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-[var(--rose-deep)]"
+  }, ":"), /*#__PURE__*/React.createElement("select", {
+    value: minute,
+    onChange: e => setMinute(e.target.value),
+    className: "bg-[var(--pink-bg-1)] rounded-xl px-3 py-2 font-semibold text-[var(--maroon)] outline-none"
+  }, ["00", "15", "30", "45"].map(m => /*#__PURE__*/React.createElement("option", {
+    key: m,
+    value: m
+  }, m))), /*#__PURE__*/React.createElement("select", {
+    value: ampm,
+    onChange: e => setAmpm(e.target.value),
+    className: "bg-[var(--pink-bg-1)] rounded-xl px-3 py-2 font-semibold text-[var(--maroon)] outline-none"
+  }, /*#__PURE__*/React.createElement("option", {
+    value: "AM"
+  }, "AM"), /*#__PURE__*/React.createElement("option", {
+    value: "PM"
+  }, "PM"))))), /*#__PURE__*/React.createElement("button", {
+    onClick: handleSend,
+    disabled: !canSend,
+    className: "mt-8 font-bold rounded-full px-9 py-4 text-lg shadow-lg transition-all",
+    style: {
+      background: canSend ? "linear-gradient(135deg, var(--rose), var(--rose-deep))" : "#F3C9D6",
+      color: "#fff",
+      cursor: canSend ? "pointer" : "not-allowed",
+      opacity: canSend ? 1 : 0.8
+    }
+  }, "Send the date to Precious 💌"));
+}
 
-// Also refresh notifs after loadTx
-const _origLoadTx = loadTx;
-loadTx = function() {
-  _origLoadTx();
-  loadNotifs();
-};
+/* ============================================================
+   SCREEN 3 — FOOD CHOICE
+   ============================================================ */
+const FOOD_OPTIONS = [{
+  id: "pizza",
+  label: "Pizza",
+  emoji: "🍕"
+}, {
+  id: "jollof",
+  label: "Jollof Rice",
+  emoji: "🍛"
+}, {
+  id: "burgers",
+  label: "Burgers",
+  emoji: "🍔"
+}, {
+  id: "eba",
+  label: "Eba",
+  emoji: "😂"
+}, {
+  id: "icecream",
+  label: "Just Ice Cream",
+  emoji: "🍦"
+}];
+function FoodScreen({
+  onNext
+}) {
+  const [selected, setSelected] = useState(null);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "screen-enter min-h-screen w-full flex flex-col items-center justify-center px-4 py-14"
+  }, /*#__PURE__*/React.createElement(ProgressDots, {
+    step: 2
+  }), /*#__PURE__*/React.createElement("h2", {
+    className: "font-display font-bold text-[var(--maroon)] text-center mb-8 max-w-lg",
+    style: {
+      fontSize: "clamp(1.5rem, 5vw, 2.2rem)"
+    }
+  }, "What are you craving to eat on our date? 🍽️"), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl w-full"
+  }, FOOD_OPTIONS.map(opt => {
+    const isSel = selected === opt.id;
+    return /*#__PURE__*/React.createElement("button", {
+      key: opt.id,
+      onClick: () => setSelected(opt.id),
+      className: "heart-emoji-btn bg-white rounded-2xl p-5 flex flex-col items-center gap-2 shadow-md",
+      style: {
+        border: isSel ? "3px solid var(--rose)" : "3px solid transparent",
+        boxShadow: isSel ? "0 14px 30px -12px rgba(232,76,136,0.5)" : "0 8px 20px -12px rgba(179,24,78,0.25)",
+        transform: isSel ? "translateY(-3px)" : "none"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "text-4xl"
+    }, opt.emoji), /*#__PURE__*/React.createElement("span", {
+      className: "font-semibold text-[var(--maroon)] text-sm text-center"
+    }, opt.label));
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: () => onNext(FOOD_OPTIONS.find(f => f.id === selected)),
+    disabled: !selected,
+    className: "mt-10 font-bold rounded-full px-10 py-4 text-lg shadow-lg transition-all",
+    style: {
+      background: selected ? "linear-gradient(135deg, var(--rose), var(--rose-deep))" : "#F3C9D6",
+      color: "#fff",
+      cursor: selected ? "pointer" : "not-allowed",
+      opacity: selected ? 1 : 0.8
+    }
+  }, "Next 💕"));
+}
 
-console.log('%c Netadol Bank v2.2 — Full UI | Transfer Guard | Notif + Receipt Download | Premium Me', 'color:#c9a84c;font-weight:800;font-size:14px;');
+/* ============================================================
+   SCREEN 4 — HOTEL QUESTION
+   ============================================================ */
+function HotelScreen({
+  onNext,
+  submitting
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "screen-enter min-h-screen w-full flex flex-col items-center justify-center px-6 py-14 text-center"
+  }, /*#__PURE__*/React.createElement(ProgressDots, {
+    step: 3
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "text-4xl mb-4"
+  }, "😏🏨"), /*#__PURE__*/React.createElement("h2", {
+    className: "font-display font-bold text-[var(--maroon)] mb-10 max-w-md",
+    style: {
+      fontSize: "clamp(1.5rem, 5vw, 2.2rem)"
+    }
+  }, "Have a quiet time in a hotel together? 😏"), /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-wrap gap-4 justify-center"
+  }, /*#__PURE__*/React.createElement("button", {
+    disabled: submitting,
+    onClick: () => onNext("YES"),
+    className: "heart-emoji-btn text-white font-bold rounded-full px-10 py-4 text-xl shadow-lg",
+    style: {
+      background: "linear-gradient(135deg, var(--rose), var(--rose-deep))"
+    }
+  }, "YES 😏"), /*#__PURE__*/React.createElement("button", {
+    disabled: submitting,
+    onClick: () => onNext("MAYBE"),
+    className: "heart-emoji-btn font-bold rounded-full px-10 py-4 text-xl shadow-md",
+    style: {
+      background: "#fff",
+      color: "var(--maroon)",
+      border: "2px solid #FBD1DE"
+    }
+  }, "MAYBE 👀")), submitting && /*#__PURE__*/React.createElement("p", {
+    className: "mt-6 font-semibold text-[var(--rose-deep)] animate-pulse"
+  }, "Sending to Precious..."));
+}
+
+/* ============================================================
+   SCREEN 5 — CELEBRATION + RECEIPT
+   ============================================================ */
+function CelebrationScreen({
+  data
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "screen-enter min-h-screen w-full flex flex-col items-center justify-center px-4 py-16 relative"
+  }, /*#__PURE__*/React.createElement(CelebrationBurst, {
+    trigger: true
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "pop-in text-5xl mb-3 relative z-10"
+  }, "💖🌸💖"), /*#__PURE__*/React.createElement("h2", {
+    className: "pop-in font-display font-extrabold mb-2 relative z-10",
+    style: {
+      fontSize: "clamp(2rem, 8vw, 3.2rem)",
+      background: "linear-gradient(120deg, var(--rose-deep), var(--rose), var(--gold))",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent"
+    }
+  }, "YAY!! 💖🌸"), /*#__PURE__*/React.createElement("p", {
+    className: "pop-in font-display italic text-[var(--maroon)] mb-8 relative z-10",
+    style: {
+      animationDelay: "0.1s"
+    }
+  }, HER_NAME, ", it's a date 🥂"), /*#__PURE__*/React.createElement("div", {
+    className: "ticket w-full max-w-sm relative z-10 pop-in",
+    style: {
+      animationDelay: "0.2s"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "px-6 pt-6 pb-4 text-center"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-xs tracking-[0.25em] font-bold text-[var(--rose)] mb-1"
+  }, "DATE INVITATION"), /*#__PURE__*/React.createElement("p", {
+    className: "font-display font-bold text-[var(--maroon)] text-lg"
+  }, "Admit One — ", HER_NAME)), /*#__PURE__*/React.createElement("div", {
+    className: "mx-6",
+    style: {
+      borderTop: "2px dashed #F3B8CC"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "px-6 py-5 space-y-4 text-left"
+  }, /*#__PURE__*/React.createElement(ReceiptRow, {
+    label: "Date",
+    value: data.dateLabel,
+    emoji: "📅"
+  }), /*#__PURE__*/React.createElement(ReceiptRow, {
+    label: "Time",
+    value: data.timeLabel,
+    emoji: "⏰"
+  }), /*#__PURE__*/React.createElement(ReceiptRow, {
+    label: "Food",
+    value: `${data.food?.label ?? ""} ${data.food?.emoji ?? ""}`,
+    emoji: "🍽️"
+  }), /*#__PURE__*/React.createElement(ReceiptRow, {
+    label: "Hotel",
+    value: data.hotelChoice,
+    emoji: "🏨"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "mx-6",
+    style: {
+      borderTop: "2px dashed #F3B8CC"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "px-6 py-4 text-center"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] tracking-[0.2em] text-[var(--rose)] font-bold"
+  }, "CONFIRMED WITH LOVE"))), /*#__PURE__*/React.createElement("p", {
+    className: "pop-in font-display italic text-[var(--maroon)] text-lg mt-8 relative z-10",
+    style: {
+      animationDelay: "0.3s"
+    }
+  }, "I Can't Wait to see you! 🌹"));
+}
+function ReceiptRow({
+  label,
+  value,
+  emoji
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between gap-3"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-semibold text-[var(--rose-deep)] flex items-center gap-1.5"
+  }, /*#__PURE__*/React.createElement("span", null, emoji), " ", label), /*#__PURE__*/React.createElement("span", {
+    className: "text-sm font-bold text-[var(--maroon)] text-right"
+  }, value));
+}
+
+/* ============================================================
+   APP ROOT
+   ============================================================ */
+function App() {
+  const [screen, setScreen] = useState(1);
+  const [dateInfo, setDateInfo] = useState({
+    dateLabel: "",
+    timeLabel: ""
+  });
+  const [food, setFood] = useState(null);
+  const [hotelChoice, setHotelChoice] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const submitToSheet = async payload => {
+    try {
+      await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(payload)
+      });
+    } catch (err) {
+      console.error("Webhook submission failed:", err);
+    }
+  };
+  const handleHotelChoice = async choice => {
+    setHotelChoice(choice);
+    setSubmitting(true);
+    await submitToSheet({
+      name: HER_NAME,
+      date: dateInfo.dateLabel,
+      time: dateInfo.timeLabel,
+      food: food?.label,
+      hotel: choice,
+      submittedAt: new Date().toISOString()
+    });
+    setSubmitting(false);
+    setScreen(5);
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "relative"
+  }, /*#__PURE__*/React.createElement(FloatingParticles, null), /*#__PURE__*/React.createElement("div", {
+    className: "relative z-10"
+  }, screen === 1 && /*#__PURE__*/React.createElement(ProposalScreen, {
+    onYes: () => setScreen(2)
+  }), screen === 2 && /*#__PURE__*/React.createElement(CalendarScreen, {
+    onNext: info => {
+      setDateInfo(info);
+      setScreen(3);
+    }
+  }), screen === 3 && /*#__PURE__*/React.createElement(FoodScreen, {
+    onNext: f => {
+      setFood(f);
+      setScreen(4);
+    }
+  }), screen === 4 && /*#__PURE__*/React.createElement(HotelScreen, {
+    onNext: handleHotelChoice,
+    submitting: submitting
+  }), screen === 5 && /*#__PURE__*/React.createElement(CelebrationScreen, {
+    data: {
+      ...dateInfo,
+      food,
+      hotelChoice
+    }
+  })));
+}
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(/*#__PURE__*/React.createElement(App, null));
 </script>
 </body>
 </html>
